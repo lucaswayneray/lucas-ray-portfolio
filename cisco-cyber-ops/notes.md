@@ -221,9 +221,89 @@ ps aux | grep ssh
 
 ---
 
-## ✅ Screenshots and Visual References
+### 🔹 Viewing Network Properties in Linux
 
-!\[Filesystem Basics]\(sandbox:/mnt/data/Screenshot 2025-05-31 2.38.16 PM.png) !\[Permissions Reference]\(sandbox:/mnt/data/Screenshot 2025-05-31 7.49.41 PM.png) !\[Systemd View]\(sandbox:/mnt/data/Screenshot 2025-05-31 8.03.00 PM.png) !\[Process Table]\(sandbox:/mnt/data/Screenshot 2025-05-31 8.28.28 PM.png) !\[Chaining and Piping]\(sandbox:/mnt/data/Screenshot 2025-05-31 8.34.21 PM.png)
+Modern Linux implementations often include **automated network management services** that:
+
+* Configure and manage network interface states automatically.
+* Are often tied to GUI-based tools.
+
+> ⚠️ If you make changes via the command line while network management services are running, those changes may be **overwritten** either by the background processes or upon reboot.
+
+#### Managing Network Properties via CLI
+
+If you prefer CLI:
+
+* You must **disable or remove** the built-in network management services from your distribution.
+* You can then manually configure network interfaces and settings.
+
+---
+
+### 🔹 `ifconfig` vs `ip`
+
+* `ifconfig` has been around a long time and is still widely used.
+* However, it is deprecated in many distros and replaced by the more powerful `ip` command, part of the `iproute2` utilities.
+* `ip` is **not a direct replacement**; syntax and capabilities differ.
+
+🔗 Resources:
+
+* [Linux.com - Replacing ifconfig with ip](https://www.linux.com/training-tutorials/replacing-ifconfig-ip/)
+* [Red Hat - ifconfig vs ip](https://www.redhat.com/sysadmin/ifconfig-vs-ip)
+
+---
+
+### 🔹 `ifconfig -a` Output Example
+
+This command displays **all interfaces**, even if they’re down.
+
+```bash
+ifconfig -a
+```
+
+Example output:
+
+```
+ens160 Link encap:Ethernet  HWaddr 00:0c:29:dc:fa:a7
+inet addr:192.168.7.77  Bcast:192.168.7.255  Mask:255.255.255.0
+inet6 addr: fe80::20c:29ff:fedc:faa7/64  Scope:Link
+UP BROADCAST RUNNING MULTICAST  MTU:1500  Metric:1
+RX packets:5354  TX packets:294
+RX bytes:636648  TX bytes:44035
+
+lo Link encap:Local Loopback
+inet addr:127.0.0.1  Mask:255.0.0.0
+inet6 addr: ::1/128  Scope:Host
+UP LOOPBACK RUNNING  MTU:65536  Metric:1
+RX packets:1803  TX packets:1803
+RX bytes:184103  TX bytes:184103
+```
+
+* **ens160**: Main Ethernet interface
+* **lo**: Loopback interface
+* Look for `UP` to confirm it's active
+* Displays both IPv4 and IPv6 addresses
+* Shows packet transmission stats
+
+---
+
+### 🔹 `ifconfig [interface]` Example
+
+To inspect a single interface:
+
+```bash
+ifconfig ens160
+```
+
+Example output:
+
+```
+ens160 Link encap:Ethernet  HWaddr 00:0c:29:b7:ed:0e
+inet addr:192.168.7.104  Bcast:192.168.7.255  Mask:255.255.255.0
+inet6 addr: fe80::3e06:eb0f:2c50:ec94/64  Scope:Link
+UP BROADCAST RUNNING MULTICAST  MTU:1500  Metric:1
+RX packets:898316  TX packets:10199
+RX bytes:96.7 MB  TX bytes:614.7 KB
+```
 
 ---
 
@@ -231,76 +311,10 @@ ps aux | grep ssh
 
 All shorthand and images have been compiled into a structured, clean doc. Ready for Module 3 or flashcard prep!
 
-Viewing Basic Network Properties- Modern Linux implmnttions use automated ntwrk mgmt prcsses- to config and manage ntwrk interface states- these mgmt tools ship w/ GUI-based apps from whch you can view and edit ntwrk properties. A good idea to use the GUI based tools to edit ntwrk properties. Any chngs you make from the cmmnd line will be overwritten by background prcsses- that are responsible for maintaining ntwrk or when the host is restarted. If prefer to mnge ntwrk proprties from the cmmnd line, can disable or remove the ntwrk- mgmt tools that are ntvely shipped w/ your Linux distrbtion, and mnge your ntwrking prprties- manully from the cmmnd line. 
+## ✅ Screenshots and Visual References
 
-Note:\*\* ip - a\*\* rplcmnt for ifconfig cmmnd:\*\* ifconfig\*\* has been there a long time and still used to config, dsply, and Ctrl ntwrk intrfce- by many, but a new alternative now exists on Linux distrbtions which is more pwerful. Alternative is IP command from \*\*iproute2util \*\* pkge. Know that\*\* ip\*\* is not a drop-in rplcmnt for ipconfig. There are differences in the strctre of the cmmnds. Even w/ these diffs both cmmnds are used for similar prpses:
-
-
-[https://www.linux.com/training-tutorials/replacing-ifconfig-ip/](https://www.linux.com/training-tutorials/replacing-ifconfig-ip/) and [https://www.redhat.com/sysadmin/ifconfig-vs-ip](https://www.redhat.com/sysadmin/ifconfig-vs-ip)  
-
-One of most imprtnt cmmnds reltve to checking your ntwrk proprts is the ifconfig cmmnd. Gives you a lot of info about the state of your ntwrk intrfce- and their configs. The ifconfig cmmnd accpts many options, but w/ the syntax shown in fllwing ex, a lot of info is rtrved about the interfaces in the installation:
-
-ifconfig -a
-
-ens160 Link encap\:Ethernet HWaddr 00:0c:29\:dc\:fa\:a7&#x20;
-
-inet addr:192.168.7.77 Bcast:192.168.7.255 Mask:255.255.255.0
-
-&#x20;inet6 addr: fe80::20c:29ff\:fedc\:faa7/64 Scope\:Link&#x20;
-
-UP BROADCAST RUNNING MULTICAST MTU:1500 Metric:1&#x20;
-
-RX packets:5354 errors:0 dropped:1294 overruns:0 frame:0&#x20;
-
-TX packets:294 errors:0 dropped:0 overruns:0 carrier:0&#x20;
-
-collisions:0 txqueuelen:1000&#x20;
-
-RX bytes:636648 (636.6 KB) TX bytes:44035 (44.0 KB)&#x20;
-
-lo Link encap\:Local Loopback&#x20;
-
-inet addr:127.0.0.1 Mask:255.0.0.0
-
-&#x20;inet6 addr: ::1/128 Scope\:Host&#x20;
-
-UP LOOPBACK RUNNING MTU:65536 Metric:1
-
-&#x20;RX packets:1803 errors:0 dropped:0 overruns:0 frame:0&#x20;
-
-TX packets:1803 errors:0 dropped:0 overruns:0 carrier:0&#x20;
-
-collisions:0 txqueuelen:1&#x20;
-
-RX bytes:184103 (184.1 KB) TX bytes:184103 (184.1 KB)
-
-The -a option instructs the Systm to output info on all the interfaces even if they are down. Each entry begins w/ the name of the interface. In the ex, the first interface is called ens160, and second intrfce- is called lo, aka loopback interface. First line in details portion of the entry shows the hardware address (for ex, the MAC address) of the interface. the next lines show the IP address info that is assctd w/ the intrfce which includes the fllwing:
-
-* IPv4 IP address
-* Broadcast address
-* Subnet mask
-* IPv6 IP address
-
-After the IP address info, displays info regarding the state of the interface. If you see the word UP at beginning of this section, the interface is able to send and rcv IP traffic. The remainder of the feedback gives you stats about packets that are rcvd and transmitted.
-
-The if config cmmnd tells you a lot about the state of your ntwrk intrfce and their configs. Can get info on a spcfc intrfce- by specifying the intrfce name in the cmmnd. 
-
-ifconfig ens160
-
-ens160 Link encap\:Ethernet HWaddr 00:0c:29\:b7\:ed:0e
-
-&#x20;inet addr:192.168.7.104 Bcast:192.168.7.255 Mask:255.255.255.0
-
-&#x20;inet6 addr: fe80::3e06\:eb0f:2c50\:ec94/64 Scope\:Link
-
-&#x20;UP BROADCAST RUNNING MULTICAST MTU:1500 Metric:1&#x20;
-
-RX packets:898316 errors:0 dropped:2 overruns:0 frame:0&#x20;
-
-TX packets:10199 errors:0 dropped:0 overruns:0 carrier:0
-
-&#x20;collisions:0 txqueuelen:1000
-
-&#x20;RX bytes:96750642 (96.7 MB) TX bytes:614795 (614.7 KB)
-
-\\
+!\[Filesystem Basics]\(sandbox:/mnt/data/Screenshot 2025-05-31 2.38.16 PM.png)
+!\[Permissions Reference]\(sandbox:/mnt/data/Screenshot 2025-05-31 7.49.41 PM.png)
+!\[Systemd View]\(sandbox:/mnt/data/Screenshot 2025-05-31 8.03.00 PM.png)
+!\[Process Table]\(sandbox:/mnt/data/Screenshot 2025-05-31 8.28.28 PM.png)
+!\[Chaining and Piping]\(sandbox:/mnt/data/Screenshot 2025-05-31 8.34.21 PM.png)
