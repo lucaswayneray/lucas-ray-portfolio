@@ -1,3 +1,234 @@
+# Cisco SOC Course Study Guide
+
+> This document is a structured, expandable study guide based on the Cisco SOC specialization track. Notes are derived from shorthand entries and cleaned for clarity. It will grow to include material from Courses 2 and 3.
+
+---
+
+## Module 1: Roles in a Security Operations Center (SOC)
+
+### SOC Analysts
+
+* **Tier 1 Analyst:** Triage alerts, basic investigation, escalate as needed.
+* **Tier 2 Analyst:** Deep dive analysis, threat hunting, containment support.
+* **Tier 3 Analyst:** Incident Response (IR), forensics, malware analysis.
+
+### Other Roles
+
+* **Security Engineer:** Develops, integrates, and maintains SOC tools. Defines requirements.
+* **SOC Manager:** Leads team operations, oversees policy adherence.
+* **CTI Analyst (Cyber Threat Intelligence):** Tracks threat actors, provides indicators of compromise (IOCs).
+* **Digital Forensic Analyst:** Investigates digital evidence post-incident.
+
+---
+
+## Module 2: Threat Intelligence
+
+### Sources
+
+* Open Source Intelligence (OSINT)
+* Commercial threat intel feeds
+* Government sources (e.g., US-CERT)
+
+### Formats
+
+* IOCs: hashes, IPs, domains, URLs
+* TTPs: Tactics, Techniques, Procedures
+
+### Tools
+
+* MISP, ThreatConnect, Anomali
+
+---
+
+## Module 3: Common Security Tools
+
+### Key Tools
+
+* **SIEM (Security Information and Event Management):** Aggregates and analyzes log data (e.g., Splunk, QRadar)
+* **Endpoint Detection and Response (EDR):** Monitors and collects activity from endpoints (e.g., CrowdStrike)
+* **Packet Capture (PCAP):** Records network traffic (e.g., Wireshark)
+* **Firewall/NGFW:** Controls network traffic
+* **IDS/IPS:** Detects/prevents intrusions
+
+---
+
+## Module 4: Log Management & Analysis
+
+### Log Types
+
+* Authentication logs
+* DNS logs
+* Network traffic logs
+* Application logs
+
+### Analysis Techniques
+
+* Log correlation
+* Timeline analysis
+* Anomaly detection
+
+---
+
+## Module 5: Incident Detection & Response
+
+### Detection
+
+* Based on log anomalies, alerts, threat intel
+* Use of SIEM rules, correlation, and thresholds
+
+### Response Phases
+
+1. **Preparation**
+2. **Identification**
+3. **Containment**
+4. **Eradication**
+5. **Recovery**
+6. **Lessons Learned**
+
+### Incident Types
+
+* Malware infection
+* Unauthorized access
+* DDoS attacks
+* Insider threats
+
+---
+
+## Module 6: Network Fundamentals for SOC
+
+### Protocols
+
+* TCP, UDP
+* HTTP, HTTPS
+* DNS, DHCP
+* ICMP
+
+### Concepts
+
+* Ports (well-known: 0–1023)
+* IP Addressing (IPv4/IPv6)
+* Subnetting, NAT, VLANs
+
+### Network Devices
+
+* Router, Switch, Firewall
+* Load Balancer, Proxy
+
+---
+
+## Module 7: SIEM & Correlation Rules
+
+### SIEM Capabilities
+
+* Central log collection
+* Alert generation
+* Visualization
+
+### Correlation Rules
+
+* Rule logic to match event patterns
+* Can use thresholds, time windows
+* Examples:
+
+  * 5 failed logins in 10 minutes from same IP
+  * Outbound traffic to known malicious IPs
+
+### SIEM Deployment Considerations
+
+* Use cases defined by business needs
+* Custom parsers may be needed
+* Prioritize high-value data sources
+
+---
+
+## Module 8: Workflow Management and SOC Automation
+
+### Workflow Management System (WMS)
+
+* WMS is software used to coordinate and automate security incident response from detection to mitigation to ticket closure.
+* Also known as SOAR (Security Orchestration, Automation, and Response) in many contexts.
+* Vendors may use unique names (e.g., Swimlane calls it a Security Operations Orchestration and Automation platform).
+* A WMS typically comes into play after a SIEM (e.g., Splunk, LogRhythm, AlienVault) detects a security event.
+
+### Workflow Types
+
+1. **Sequential Workflow** – Flowchart-style; proceeds linearly through steps without returning.
+2. **State Machine Workflow** – More complex; can return to previous states if needed.
+3. **Rules-Driven Workflow** – Based on predefined rules that dictate progression (a variation of sequential workflows).
+
+### Benefits of WMS
+
+* Coordinates efforts between multiple team members and systems.
+* Automates repeatable tasks, freeing analysts for more complex duties.
+* Increases consistency and accuracy.
+
+### Example Tasks WMS Can Automate:
+
+| **Task**                          | **Description**                                          |
+| --------------------------------- | -------------------------------------------------------- |
+| Audit Log Collection & Enrichment | Retrieves and enriches logs across devices               |
+| User/Device Lookup                | Pulls user info from directories; resolves hostnames/IPs |
+| Alerts & Notifications            | Generates alerts from defined conditions                 |
+| Threat Intelligence Integration   | Uses external feeds for contextual threat awareness      |
+| Ticket Management                 | Creates, validates, and resolves tickets                 |
+| Escalations                       | Initiates contact or legal procedures when needed        |
+
+### Integration Approaches
+
+* **RESTful API** – Uses HTTP requests to exchange data with tools (e.g., ticketing systems)
+* **Command-Line API** – Executes commands directly from the shell
+* **TAXII** – Standardized transport protocol for threat intel sharing
+
+### SIEM & WMS Integration
+
+* SIEM captures logs and raises alerts.
+* WMS responds by generating tasks, executing remediation, and creating cases.
+* Ensures consistent and automated responses.
+
+### Incident Response Workflow
+
+* Ensures all incident severities have defined response processes.
+* Severity may change during handling; workflows adapt accordingly.
+* WMS can automate reporting reminders and SLA tracking.
+
+### SOC Roles in Workflow
+
+| **Role**                  | **Responsibilities**                            |
+| ------------------------- | ----------------------------------------------- |
+| Tier 1 Analyst            | Alert triage, data collection                   |
+| Tier 2 Analyst            | Deep analysis, endpoint forensics               |
+| Incident Response Handler | Orchestrates containment/remediation            |
+| Forensics Specialist      | Collects and preserves evidence                 |
+| Malware Reverse Engineer  | Analyzes and develops IOCs/signatures           |
+| SOC Management            | Oversees resources, strategy, and communication |
+| Executive Leadership      | Sets strategic direction                        |
+
+### Automation & Orchestration Benefits
+
+* Reduces human error and labor costs
+* Improves speed and consistency of detection and response
+* Allows SOCs to evolve playbooks and handle high volumes of alerts
+* Automates Tier 1+2 workflows, allowing analysts to focus on high-level tasks
+
+### SOC Workflow Automation Example
+
+* Tier 1 receives alert → opens ticket → collects user and IP info → queries threat intel → assigns severity → escalates.
+* Tier 2 confirms exploit, queries endpoint, collects logs, executes containment.
+* Tier 3 performs forensics, extracts indicators, updates threat intel.
+* Management reviews metrics (time to detect, contain, resolve).
+
+### Notable WMS/SOAR Vendors
+
+* Cisco SecureX
+* Cisco CloudCenter Action Orchestrator
+* IBM Resilient Systems
+* Proofpoint Threat Response
+* Swimlane
+* CyberSponse
+
+---
+
+*End of Course 1 Study Guide — Ready for upload to GitHub. Next up: Course 2 and supplemental notes.*
 # Cisco Cybersecurity Certificate - Course 2 Notes
 
 ## Overview
