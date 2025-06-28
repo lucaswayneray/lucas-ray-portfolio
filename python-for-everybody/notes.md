@@ -7,7 +7,7 @@
 
 ---
 
-## 🧠 Table of Contents
+##  Table of Contents
 
 * [Introduction](#introduction)
 * [Chapter 1 – Why Program?](#chapter-1--why-program)
@@ -27,7 +27,7 @@
 
 ---
 
-## 📍 Introduction
+##  Introduction
 
 * Python is an interpreted, high-level, general-purpose programming language.
 * Course focuses on basic programming concepts using Python 3.
@@ -39,7 +39,7 @@
 * Programming = telling the computer what to do.
 * Python is beginner-friendly and widely used in data science, automation, and web development.
 
-### 📌 Key Concepts
+###  Key Concepts
 
 * Programming is problem solving.
 * Code executes line-by-line.
@@ -51,7 +51,7 @@
 * Main memory (RAM): temporary, fast storage; wiped on shutdown.
 * Secondary memory: permanent storage like hard drives or USB sticks.
 
-### 🧠 Hardware Components
+###  Hardware Components
 
 * **CPU** – Runs the program; fetches instructions from memory and executes them.
 * **Input Devices** – Keyboard, mouse, touchscreen, etc.
@@ -61,14 +61,14 @@
 
 ---
 
-## ✅ Additions & Edits
+##  Additions & Edits
 
 As you go through each chapter, add:
 
-* 📌 Key Concepts
-* 🧪 Code Examples
-* 🛠️ Exercises/Practice
-* 🤔 Questions or Confusions
-* ✅ Your Summary or Takeaways
+*  Key Concepts
+*  Code Examples
+*  Exercises/Practice
+*  Questions or Confusions
+*  Your Summary or Takeaways
 
 Open Michigan materials for Python for Everybody are at [www.py4e.com](http://www.py4e.com)

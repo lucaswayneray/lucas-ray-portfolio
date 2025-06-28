@@ -4,7 +4,7 @@ This folder contains my study notes and summaries from the AWS Fundamentals cour
 
 ---
 
-## 📘 Topics Covered
+## Topics Covered
 
 - Introduction to Cloud Computing
 - AWS Global Infrastructure
@@ -16,14 +16,14 @@ This folder contains my study notes and summaries from the AWS Fundamentals cour
 
 ---
 
-## 🗂 Files
+##  Files
 
 - `notes.md` – Full compiled AWS notes (in progress)
 - Future additions: architecture diagrams, cheatsheets, CLI examples, and practice tasks
 
 ---
 
-## 🔗 Resources
+##  Resources
 
 - [AWS Documentation](https://docs.aws.amazon.com/)
 - [AWS Free Tier](https://aws.amazon.com/free/)

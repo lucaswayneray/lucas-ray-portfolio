@@ -4,7 +4,7 @@ Welcome to my AWS Fundamentals note tracker. These notes cover key services, use
 
 ---
 
-## ✅ Core Services & Concepts
+##  Core Services & Concepts
 
 ### EC2 (Elastic Compute Cloud)
 - Virtual server instances
@@ -23,7 +23,7 @@ Welcome to my AWS Fundamentals note tracker. These notes cover key services, use
 
 ---
 
-## ☁️ Infrastructure Tools
+##  Infrastructure Tools
 
 ### VPC (Virtual Private Cloud)
 - Customizable network environment
@@ -39,7 +39,7 @@ Welcome to my AWS Fundamentals note tracker. These notes cover key services, use
 
 ---
 
-## 🧠 AWS CLI (Command Line Interface)
+##  AWS CLI (Command Line Interface)
 - `aws configure`
 - `aws s3 ls`
 - `aws ec2 describe-instances`
@@ -54,7 +54,7 @@ aws ec2 describe-instances
 
 ---
 
-## 🧰 AWS SDK (Software Development Kits)
+##  AWS SDK (Software Development Kits)
 - SDKs allow developers to interact with AWS services using programming languages
 - Supported languages: Python, JavaScript, Java, C++, Go, PHP, .NET, Ruby
 - Example: Uploading a file to S3 using Python’s `boto3` SDK
@@ -70,7 +70,7 @@ print(response)
 
 ---
 
-## 🧭 AWS Management Console
+##  AWS Management Console
 - Web-based GUI for interacting with AWS services
 - Services categorized by function (e.g., Compute, Storage, Security)
 - Region selector in the top right determines where your resources are deployed
@@ -78,7 +78,7 @@ print(response)
 
 ---
 
-## 📝 Notes by Module
+##  Notes by Module
 
 ### Module 1: Introduction to Cloud & AWS
 - Benefits of cloud: elasticity, cost efficiency, scalability
@@ -167,7 +167,7 @@ Note: "Container Services" here refer to abstracted app environments like RDS, n
 
 ---
 
-## 📌 Key Terms to Remember
+##  Key Terms to Remember
 - **Elasticity**: Automatically adjusts capacity
 - **High availability**: System remains accessible under failure
 - **Scalability**: Handles increasing demand

@@ -2,7 +2,7 @@
 
 Welcome to my portfolio of cybersecurity and IT training.
 
-## 📚 Current Courses
+##  Current Courses
 
 - [Aws Fundamentals](./aws-fundamentals/README.md)
 - [Cisco Cyber Ops](./cisco-cyber-ops/README.md)
@@ -13,4 +13,4 @@ Welcome to my portfolio of cybersecurity and IT training.
 
 ---
 
-🚀 Continuously learning. Continuously improving.
+ Continuously learning. Continuously improving.
