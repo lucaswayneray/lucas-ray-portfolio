@@ -182,4 +182,39 @@ Note: "Container Services" here refer to abstracted app environments like RDS, n
 
 ---
 
-_These notes will be updated continuously as I progress._
+### Module 6: Identity & Access Management – Root User and MFA
+
+#### 6.1 Authentication vs. Authorization
+- **Authentication** verifies *who* you are (e.g., username and password, token, or biometric data).
+- **Authorization** determines *what* you can do once authenticated (e.g., read, edit, delete, or create AWS resources).
+
+#### 6.2 AWS Root User
+- When you create an AWS account you start with one sign‑in identity with full access: the **root user**.
+- Root credentials include:
+  - **Email & password** – used for AWS Management Console sign‑in.
+  - **Access key ID & secret access key** – enables programmatic access via AWS CLI or SDKs.
+- Because the root user has unlimited power (including billing), follow strict best practices:
+  1. **Create a strong password** and never share it.
+  2. **Delete or disable root access keys** unless absolutely needed.
+  3. **Use the root user only for a short list of account‑level tasks**: [AWS tasks that require root credentials](https://docs.aws.amazon.com/IAM/latest/UserGuide/security-creds.html#aws_tasks-that-require-root)
+
+#### 6.3 Multi‑Factor Authentication (MFA)
+- **Single‑factor auth** relies on just one factor (e.g., password) and is vulnerable to guessing or brute‑force attacks.
+- **Multi‑factor auth (MFA)** requires at least two of:
+  1. **Something you know** – password or PIN
+  2. **Something you have** – one‑time code from a hardware token or mobile app
+  3. **Something you are** – biometric, such as fingerprint or facial scan
+- Enabling MFA on the root user dramatically reduces risk even if the password is compromised.
+
+#### 6.4 Supported MFA Device Types
+| Device Type | Description | Examples |
+|-------------|-------------|----------|
+| Virtual MFA | A software app that provides a one-time passcode. May be less secure than hardware. | Authy, Duo Mobile, LastPass Authenticator, Google Authenticator |
+| Hardware    | Physical key fob or display card that generates numeric codes | Key fob, display card |
+| U2F Device  | USB hardware security key | YubiKey |
+
+#### 6.5 Enabling MFA
+- [Enable Virtual MFA](https://docs.aws.amazon.com/IAM/latest/UserGuide/id_credentials_mfa_enable_virtual.html)
+- [Enable Hardware MFA](https://docs.aws.amazon.com/IAM/latest/UserGuide/id_credentials_mfa_enable_physical.html)
+- [Enable U2F Security Key](https://docs.aws.amazon.com/IAM/latest/UserGuide/id_credentials_mfa_enable_fido.html)
+- [AWS MFA Device Table](https://aws.amazon.com/iam/features/mfa/)
