@@ -218,3 +218,114 @@ Note: "Container Services" here refer to abstracted app environments like RDS, n
 - [Enable Hardware MFA](https://docs.aws.amazon.com/IAM/latest/UserGuide/id_credentials_mfa_enable_physical.html)
 - [Enable U2F Security Key](https://docs.aws.amazon.com/IAM/latest/UserGuide/id_credentials_mfa_enable_fido.html)
 - [AWS MFA Device Table](https://aws.amazon.com/iam/features/mfa/)
+
+### Module 7: Introduction to AWS Identity and Access Management (IAM)
+
+#### 7.1 What is IAM?
+IAM is a global web service that lets you **manage who (users, groups, roles) and what (applications, services)** can access your AWS account and resources.
+- **Authentication** – verifies identity.
+- **Authorization** – defines the allowed actions on specific resources.
+
+... (existing content remains unchanged here) ...
+
+#### 7.5 Summary
+- Use **least privilege**: grant only the permissions required.
+- Prefer **groups** over individual user policies.
+- Protect the **root user** with strong credentials and **MFA**.
+- Favor roles and temporary credentials over long‑term access keys.
+
+---
+
+#### 7.6 Granular Policy Example – Self‑Manage Credentials
+The following JSON policy allows an IAM user to **change their own password** and **view their own user details**, but nothing else. Resource access is limited using the variable substitution `${aws:username}` so each user touches only their own identity.
+
+```json
+{
+  "Version": "2012-10-17",
+  "Statement": [
+    {
+      "Effect": "Allow",
+      "Action": [
+        "iam:ChangePassword",
+        "iam:GetUser"
+      ],
+      "Resource": "arn:aws:iam::123456789012:user/${aws:username}"
+    }
+  ]
+}
+```
+
+> **Key Point:** By scoping the `Resource` to `user/${aws:username}`, you avoid creating separate policies for every individual.
+
+---
+
+#### 7.7 IAM Policy Statement Elements
+| Element  | Description                                                             | Required | Example                                |
+|----------|-------------------------------------------------------------------------|----------|----------------------------------------|
+| Effect   | Determines whether the statement results in an **Allow** or explicit **Deny** | Yes      | `"Effect": "Deny"`                   |
+| Action   | Lists the specific API actions that are allowed or denied               | Yes      | `"Action": "iam:CreateUser"`          |
+| Resource | Specifies the ARN(s) the statement applies to                           | Yes      | `"Resource": "arn:aws:iam::111122223333:user/Bob"` |
+
+All three elements are mandatory in every IAM policy statement. (Conditions are optional but common.)
+
+---
+
+#### 7.8 Further Reading
+- [AWS IAM Access Management Guide](https://docs.amazonaws.cn/en_us/IAM/latest/UserGuide/access.html)
+- [AWS IAM Identities (Users, Groups, Roles)](https://docs.amazonaws.cn/en_us/IAM/latest/UserGuide/id.html)
+- [IAM Introduction](https://docs.amazonaws.cn/en_us/IAM/latest/UserGuide/introduction.html)
+
+### Module 8: Role‑Based Access in AWS
+
+#### 8.1 Summary of IAM Best Practices
+1. **Protect the Root User**  
+   - Do **not** share root credentials.  
+   - Delete or deactivate root access keys.  
+   - Enable Multi‑Factor Authentication (MFA) on the root account.
+2. **Principle of Least Privilege**  
+   - Grant only the permissions required to complete a task.  
+   - Start with minimal policies and add permissions incrementally.
+3. **Use IAM Appropriately**  
+   - IAM secures access *within* AWS accounts; it is **not** designed to provide sign‑up/sign‑in for your public applications or to replace OS and network security controls.
+4. **Prefer IAM Roles over Long‑Term Users**  
+   - Roles supply **temporary credentials** (15 min – 36 hr) that auto‑expire.  
+   - Users rely on long‑term passwords or access keys that require manual rotation.
+5. **Consider an Identity Provider (IdP)**  
+   - Centralize workforce identities with AWS IAM Identity Center or a third‑party IdP.  
+   - Federated users assume roles in AWS instead of having separate IAM users in every account.
+
+#### 8.2 IAM Roles
+- Roles are **identities with no permanent credentials**.  
+- When assumed, AWS issues temporary security credentials for a defined session.  
+- Ideal for:
+  - **Cross‑account access**  
+  - **AWS service‑to‑service access**  
+  - **Federated workforce or applications**
+
+Credential Lifetime Comparison
+| Identity Type | Credential Type | Typical Lifetime |
+|---------------|-----------------|------------------|
+| IAM User      | Password / Access Keys | Until rotated / password‑policy expiry |
+| IAM Role      | Temporary Credentials  | 15 minutes – 36 hours (defined at role assumption) |
+
+#### 8.3 Identity Federation & AWS IAM Identity Center
+- **Identity Provider (IdP)** – your single source of truth for workforce accounts.  
+- AWS IAM Identity Center (successor to AWS SSO) lets employees sign in **once** and access all assigned AWS accounts & apps via a user portal.
+- Advantages over standalone IAM:
+  1. Sync existing users/groups from an external IdP (Azure AD, Okta, etc.).
+  2. Centralized user and permission management separate from cloud resources.
+  3. Avoids duplicating user objects in every AWS account.
+
+Example Workflow
+1. Employee *Martha* exists in the corporate IdP.  
+2. Martha is mapped to groups in IAM Identity Center (e.g., *Developers*, *Admins*).  
+3. Martha signs in once and selects the AWS account/role she needs.  
+4. If Martha changes jobs or leaves, update or disable her account **once** in the IdP.
+
+---
+
+#### 8.4 Further Reading
+- [AWS IAM Best Practices](https://docs.aws.amazon.com/IAM/latest/UserGuide/best-practices.html)  
+- [Managing Users with AWS IAM Identity Center](https://aws.amazon.com/blogs/security/how-to-create-and-manage-users-within-aws-sso/)
+
+
