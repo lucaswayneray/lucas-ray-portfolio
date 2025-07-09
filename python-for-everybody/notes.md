@@ -72,3 +72,5 @@ As you go through each chapter, add:
 *  Your Summary or Takeaways
 
 Open Michigan materials for Python for Everybody are at [www.py4e.com](http://www.py4e.com)
+
+As a first program we wrote a script printing anything except 'hello world'. I made sure that I had Python installed in my Linux container by opening the terminal and entering "python3 --version". I have Python 3.11.2 installed. I opened a new python project in VSCode by opening a new project folder, and adding a file named firstprogram.py in my explorer tab. I, then, typed "print ('anything else'), I then saved and ran the code in the terminal (opened by typing ctrl+`). The script is ran by entering "python3 firstprogram.py". The terminal displayed "anything else" under the command. I then added the script "print ('it worked!') under my first line of code and I then saved and ran the program again in the terminal below. The terminal then printed "anything else" and "it worked!" under the command. 
