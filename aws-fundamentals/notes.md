@@ -328,4 +328,43 @@ Example Workflow
 - [AWS IAM Best Practices](https://docs.aws.amazon.com/IAM/latest/UserGuide/best-practices.html)  
 - [Managing Users with AWS IAM Identity Center](https://aws.amazon.com/blogs/security/how-to-create-and-manage-users-within-aws-sso/)
 
+Reading 1:8- Role based access in AWS
+
+Lock Down the AWS Root User- all powrful and all-knwing ID w/in your AWS accnt. If malicious user gains ctrl of root-user creds, they'd be able to accss evry resrce w/in your accnt, inclding prsnal and bllng info
+To lock down root user: 
+1) Don't share the creds asscted w/ root user
+2)Consider deleting the root user accss keys
+3) Enable MFA on root accnt.
+
+FOLLOW PRINCIPLE OF LEAST PRIVILEGE
+
+Least Privilege is a stndrd scrty princple that advses you to grant only the necessary permissions
+to do a particular job and nothing more. To implement least privilege for access ctrl, start w/ minmum set of prmissions in IAM policy and then grant addtional permssions as necessry for user, group, or role
+
+
+USE IAM APPRPRTLY
+
+IAM is used to secre access to your AWS accnt and rsrcs- simply prvdes a way to create and mnge, users, groups and roles to access, rsrcs w/in a single AWS accnt, IAM is NOT used for website authntction and authrztion, such as prvding users of a wbsite
+w/ sign in and sign up fnctnlty. IAM also does NOT supprt scrty ctrls for prtcting OSs and netwrks. 
+
+USE IAM ROLES WHEN POSSIBLE
+
+Maintaining roles is easier than maintaining users. When you asume a role, IAM dynmcllty prvdes temprary creds that expire after a defned period of time, bt 15 minutes and 36 hours.
+Users, however, have long-term creds in form of user name and password combos or a set of access keys. User access keys only expire when you or the admin of your accnt rottes these keys. User login creds expire if you have applied a pword policy to your accnt that forces users to rotate passwords.
+
+CONSIDER USING AN ID PROVIDER
+
+If you decide to make your cat photo app into a busness and begin to have more than a handful of people working on it, consider managing emplyee ID info through and ID provider (IdP). 
+Using an IdP, AWS, IAM ID center, or third-party ID prvider, prvdes you a single src of truth for all IDs in your org. No longer have to create separate IAM users in AWS.
+Can instead use IAM roles to prvide permissions to IDs that are fedrated from your IdP. For ex: you have an emplyee, Martha, that has access to multple AWS accnts. Instead of creating and managing multple IAM users named Martha in each AWS accnt, can manage Martha in your company's IdP. If Martha moves w/in the compny or leaves the compny, Martha can be updated in the IdP, rather than in every AWS accnt you have. 
+
+CONSIDER AWS IAM ID CENTER
+
+If you have an org that spans many emplyees and multple AWS accnt, you may want your emplyees to sign in w/ a single credntial. AWS IAM ID Center is an IdP that lets your users sign into a user portal w/ single set of creds. Then prvdes them access to all their assgned accnts and apps in one centrl location. AWS IAM ID Center is simlar to IAM in that it offers a drctry where you can create users, orgnize them in groups and set permssions across those groups, and grant access to AWS resrces.
+But AWS IAM ID Center has some advntges over IAM. For ex:, if using a third-party IdP you can sync your users and groups to AWS IAM ID Center.This removes the burden of having to re-create users that already exist elsewhree, and enables you to manage thos users from your IdP.
+More imprtntly, AWS IAM ID Center separtes the duties bt your IdP and AWS, ensring that your cloud access mgmt is not inside or depndent on your IdP.
+
+
+Links:
+https://docs.aws.amazon.com/IAM/latest/UserGuide/best-practices.html
 
