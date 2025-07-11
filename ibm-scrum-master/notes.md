@@ -68,6 +68,24 @@ Unlike project managers, a Scrum Master does not plan the overall project from s
 
 ### Scrum Process Summary
 
+**Knowledge Check: Measuring Work for a Sprint**
+
+* In practice, **Capacity** is the best term to describe how much work the team can take on during a Sprint based on availability and bandwidth.
+* However, many quizzes and certifications may expect the answer **Velocity**, which measures **how much work was completed in past Sprints**.
+* Velocity is often used to help forecast team capacity, which may explain the confusion in assessment contexts.
+
+**Knowledge Check: Common Scrum Event Term**
+
+* Scrum refers to key events like Sprint Planning, Daily Scrum, Review, and Retrospective as **Ceremonies**.
+* These ceremonies provide regular rhythm and structure to the team’s workflow.
+
+**Knowledge Check: Final Event of the Sprint**
+
+* The final event a Scrum Master must facilitate at the end of each Sprint is the **Sprint Retrospective**.
+* The Retrospective occurs **after the Sprint Review (Demo)** and focuses on improving team processes and collaboration.
+* Its purpose is to inspect how the Sprint went and identify areas for improvement before the next Sprint begins.
+* This is distinct from a "Lessons Learned" session, which is a traditional project management term and not part of Scrum.
+
 **Knowledge Check: Final Event of the Sprint**
 
 * The final event a Scrum Master must facilitate at the end of each Sprint is the **Sprint Retrospective**.
@@ -140,6 +158,40 @@ Unlike project managers, a Scrum Master does not plan the overall project from s
 
 ### Important Scrum Concepts
 
+**Knowledge Check: Product Backlog Refinement**
+
+* The **Product Owner** is responsible for reviewing and updating the **Product Backlog** to ensure all **User Stories are ready** for the next Sprint.
+* This formal process is called **Refinement**.
+* While the Scrum Master may facilitate refinement meetings, the Product Owner owns the backlog content and its prioritization.
+
+**Knowledge Check: Definition of Done**
+
+* The term generally used in Scrum to describe an increment that was completed as planned and accepted by a customer is **Done**.
+* "Done" means that the increment meets the team's **Definition of Done**, which includes all agreed-upon criteria such as coding, testing, documentation, and stakeholder acceptance.
+* Terms like "finished," "complete," or "satisfied" are not formally recognized in Scrum and lack the rigor of a clearly defined "Done."
+
+**Knowledge Check: Product Backlog Responsibility**
+
+* The Scrum Master assists in ensuring the Product Backlog is accurate and that all User Stories are ready for the Sprint.
+
+* However, the **Product Owner** has the **primary responsibility** to ensure the Product Backlog is complete, prioritized, and refined.
+
+* The Product Owner owns the backlog content, defines acceptance criteria, and ensures that stories are well-prepared for implementation.
+
+* The Scrum Master supports this process through facilitation and coaching but is not the owner of the backlog.
+
+* **Minimum Viable Product (MVP):** basic version that satisfies user story acceptance criteria
+
+* **Increment:** usable product outcome from a sprint
+
+* **Definition of Done:** all criteria met and accepted by the customer
+
+* **Empirical Process Control:**
+
+  * **Transparency:** all relevant info is visible to stakeholders
+  * **Inspection:** info is reviewed via boards, charts, and demos
+  * **Adaptation:** changes are made based on feedback and insights
+
 **Knowledge Check: Definition of Done**
 
 * The term generally used in Scrum to describe an increment that was completed as planned and accepted by a customer is **Done**.
@@ -171,6 +223,31 @@ Unlike project managers, a Scrum Master does not plan the overall project from s
 ---
 
 ## Adaptive Agile Methodologies
+
+**Knowledge Check: Work in Progress Limits**
+
+* A Scrum Master implementing an adaptive methodology that uses **Work in Progress (WIP) limitations** is using **Kanban**.
+* Kanban limits how many tasks can be in each stage at a time, helping distribute work evenly and prevent exceeding team capacity.
+* Other frameworks (XP, Crystal, Lean) do not feature WIP limits as a core principle.
+
+**Knowledge Check: Most Widely Used Agile Methodology**
+
+* The most widely used adaptive methodology among Agile practitioners is **Scrum**.
+* Scrum is known for its structured roles, time-boxed events, and iterative delivery model.
+* It consistently ranks highest in adoption among teams using Agile methods, according to industry surveys.
+
+### Common Alternatives and Complements to Scrum
+
+* **Extreme Programming (XP):** frequent releases, strong focus on quality and responsiveness
+* **Scaled Agile Framework (SAFe):** enterprise-level scaling of Agile practices
+* **Kanban:** visual workflow with WIP limits, emphasizes steady flow
+* **DSDM:** delivery-focused Agile framework with iterative delivery
+* **Crystal:** lightweight methodology emphasizing people and interactions
+* **Lean Software Development:** eliminates waste, focuses only on what the product needs
+
+**Scrum Event Sequence (Reference)**
+
+* A: **Sprint Planning** → B: **Sprint** → C: **Review/Demo** → D: **Retrospective**
 
 ### Common Alternatives and Complements to Scrum
 
