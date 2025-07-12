@@ -123,3 +123,42 @@
 ---
 
 *Add notes as you progress through your Security+ study. Use subheadings, lists, and examples to make the material easier to review.*
+
+CIA triad-fundmentls of scrty- combo of princples
+Sometimes called AIC triad
+Confidentiality- Integrity- Availability
+
+Confidentiality- Prvnt disclsure of info to unauthrzed indivduals or systms
+
+Integrity- Messges can't be modified w/out detection- make sure what is received is what was really sent
+
+Availability- Systems up and running at all times even if implmntng some type of IT secrty
+
+Confidentiality- certain info should only be known to certain people- prvnt unauth'd info disclosure- One way to prvide confidentiality is through encryption
+
+Encryption- encode messges so only certain people can read it.- one person encrypts data, send it, then the recipient can decrypt to be able to see orig plaintext- anyone in the middle would not be able to read any of the data contained while encrypted
+
+Access Controls- set limits on access- slctvly restrct access to a resrce or info. Ex: may allow marketing to look at all marketing materials, but restrict from seeing accounting material.
+
+Two Factor Authentction- Additional confrmtion before info is disclosed- another type of confidntiality
+
+When recvng data from third party, would like to be able to see that data being rcved is what is expected- Data is stored and trnsfrred as intnded- Any mod to data would be id'd- able to do that use methods of Integrity
+
+Integrity-
+Hashing- person sending the data will create a hash of the data and send the data and the hash at the same time- when you recv the data you will prfrim the hashng function and if your hash matches sender's hash then you know the data sent is what is also recved.
+
+Can enhance this scrty by sending a Digital Signature, which is a mathmtical scheme to verfy the integrty of data. Takes a hash and encrpts it w/ an asymmetric encrption algorithm
+
+Means you can check to make sure that none of the data has changed. And can confirm the person who sent the data.
+
+Also common to include certificates to id dvcs or people and prvde addtnl factrs of integrty esp when trnsfrring data from one dvc to another- combines w/ digtal signture to verify an individual
+
+Non-repudiation- proof of integrity and can confirm that the info rcved really came from origin. Provides proof of integrty can be asserted to be genuine. 
+
+Availability- ensures that people have access to the data they need- 
+
+Have systems that are designed to be always up and running- might combine this with fault tolerance- where you have multiple components, so if one fails the other component can pick up and continue to operate normally
+
+Redundancy- build srvcs that will always be availble
+
+Patching- stability- close secrity holes- 
