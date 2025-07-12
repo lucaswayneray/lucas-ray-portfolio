@@ -549,3 +549,93 @@ All shorthand and images have been compiled into a structured, clean doc. Ready 
 !\[Systemd View]\(sandbox:/mnt/data/Screenshot 2025-05-31 8.03.00 PM.png)
 !\[Process Table]\(sandbox:/mnt/data/Screenshot 2025-05-31 8.28.28 PM.png)
 !\[Chaining and Piping]\(sandbox:/mnt/data/Screenshot 2025-05-31 8.34.21 PM.png)
+
+Configuring Network Properties- Worth noting many recnt Linux Distrbtions use autmted ntwrk mgmt that is tied to GUI config tools. In these cases the best choice is to continue usng these prvded tools. Many Linux Distrbutions prvde a System settings app that contains a section for netwrking. 
+
+Some server based instlltions may not have GUI installed, will have to perfomr netwrk configrtion from the cmmnd line, or may be remotely cnncted to a host to perfrm adminstrtve tasks on the host. In these scnarios it is important to read the docmentation that is asscted w/ that Linux distrbtion to learn about spcific cmmnds, prcsses, and files that are used for netwrk configrtion
+
+CONFIGURING BASIC PROPERTIES (IP, Subnet Mask, Gateway)
+
+One task that may need to be prfrmed is to set the IP address of a netwrk intrface. Use the ifconfig command:
+
+sudo ifconfig ens160 192.168.7.73
+
+ifconfig ens 160
+
+ens160    Link encap:Ethernet  HWaddr 00:0c:29:b7:ed:0e
+          inet addr:192.168.7.73  Bcast:192.168.7.255  Mask:255.255.255.0
+          inet6 addr: fe80::3e06:eb0f:2c50:ec94/64 Scope:Link
+          UP BROADCAST RUNNING MULTICAST  MTU:1500  Metric:1
+          RX packets:901777 errors:0 dropped:2 overruns:0 frame:0
+          TX packets:10573 errors:0 dropped:0 overruns:0 carrier:0
+          collisions:0 txqueuelen:1000 
+          RX bytes:97159093 (97.1 MB)  TX bytes:663885 (663.8 KB) 
+
+In the above ex the ifconfig command was used to set the IP address for the ens160 interface. the configrtion was tested w/ ifconfig to report on its settings. As the feedback from the cmmand shows, the interface now has the IP address that was assigned.
+
+NOTE: while readin info about netwrk interfaces can be done by any user on the system, making changes often requres root privleges. In the ex above, we used the sudo command to change the system's IP address. Second command did not require sudo privlges as it does not make any changes
+
+Could also include options to set the netmask and broadcast address as well. EX Below shows the cmmnd w/ all the options to set IP address properties to the interface.
+
+sudo ifconfig ens 160 192.168.7.73 netmask 255.255.255.0 broadcast 192.168.7.255
+
+VIEWING and CONFIGURING ROUTES
+
+Another imprtnt ntwrking property to consider isthe routing configrtion, which incldes setting the default route, also known as the default gateway, and static routes if needed. Use the netstat commnd. To view the routing table w/ netstat would config as follows:
+
+netstat -rn
+
+Kernel IP routing table
+
+Destination  Gateway      Genmask   Flags MSS  Window  irtt    Iface
+0.0.0.0      192.168.7.1  0.0.0.0     UG  0    0       0     ens160
+192.168.7.0  0.0.0.0    255.255.255.0 U   0    0       0     ens160 
+
+The netstat command w/ the -rn options as shown displays the routing table w/ numeric IP addresses. If prefer to see hostnames, can remove the n option
+
+Of the routes that are listed the first one reps the default route. The IP address 0.0.0.0 w/ a netmask of 0.0.0.0 reps any IP address. The gateway value reps where to send traffic w/ destnations that are not known to the device.
+
+The second route reps a static route for the local network. So any traffic w/ a destnation of 192.168.7.0/24 is not sent to a gateway. Rather, it is transmitted to hosts in the local ntwrk segment
+
+In a new instllation many need to set the default gateway. The syntax for doing so is as follows:
+
+sudo route add default gw 192.168.7.1
+
+The term "default" in the ex reps the 0.0.0.0 IP addr3ess, and the gw option fllwed by an IP address is the gateway. 
+
+NOTE: as with ifconfig, any user can read route info, but root privlges are requreed to make changes. 
+
+If you need to statclly set a route to a network, you can set up the route commnd as follows:
+
+sudo route add -net 192.168.133.0 netmask 255.255.255.0 gw 192.168.7.200
+
+netstat -rn
+
+Kernel IP routing table
+Destination         Gateway             Genmask            Flags   MSS   Window  irtt     Iface
+0.0.0.0             192.168.7.1         0.0.0.0             UG      0    0        0       ens160
+192.168.7.0          0.0.0.0            255.255.255.0       U       0    0        0       ens160
+192.168.133.0     192.168.7.200         255.255.255.0       UG      0    0        0       ens160
+
+The structure of the route command for entering the static route is as follows:
+
+1)route- the route command
+2)add- the option to indicate that you wish to add a route
+3)-net- the option to indicate that the destination of the route is a network
+4) 192.168.133.0- the IP adress of the destination network
+5) netmask 255.255.255.0- the netmask value for the destination network
+6) gw 192.168.7.200- the gateway IP address of where to send traffic that is destined for the 192.168.7.200- the gateway IP address of where to send the traffic that is destined for the 192.168.133.0 network
+
+After issuing the cmmand, the netstat command was used to list the routes and confirm that the new route was added. As the cmmnd feedback indicates, the addition of the new route was sccessful
+
+sudo route del -net 192.168.133.0 netmask 255.255.255.0 gw 192.168.7.200
+
+netstat -rn
+
+Kernel IP routing table
+
+Destination     Gateway         Genmask           Flags    MSS   Window  irtt    Iface
+0.0.0.0         192.168.7.1     0.0.0.0            UG        0     0      0     ens160
+192.168.7.0       0.0.0.0      255.255.255.0       U         0     0      0     ens160 
+
+In the ex the route created previously was deleted. Essentially the same syntax as adding a route, the keyword del was used instead of add. After issuing the command, the netstat command was used to confirm that the route no longer exists. 
