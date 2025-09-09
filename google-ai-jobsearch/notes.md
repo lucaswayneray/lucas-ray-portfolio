@@ -430,3 +430,6 @@ Re-iteration when including background in teaching music: I am a skilled organi
 
 Third iteration when adding my education: I am a skilled musician and educator with a proven ability to manage complex projects and lead teams effectively. My background in music performance and touring, coupled with my experience developing and implementing engaging music curricula, allows me to approach challenges with a unique blend of creativity and pragmatism. I excel at coordinating logistics, facilitating communication, and fostering positive learning environments. My passion for music informs my approach to every endeavor, ensuring meticulous attention to detail and a commitment to excellence.
 
+Job Search Plan
+People with a job search plan are 30% more likely to get a job- some strategies
+
