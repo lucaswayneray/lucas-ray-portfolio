@@ -369,5 +369,197 @@ Links:
 https://docs.aws.amazon.com/IAM/latest/UserGuide/best-practices.html
 
 https://aws.amazon.com/blogs/security/how-to-create-and-manage-users-within-aws-sso/
+Hosting Applications & Compute Fundamentals
 
+The first building block you need to host an application is a server. Servers typically handle HTTP requests and send responses to clients, following the client-server model.
+
+Client: Person or computer sending a request
+
+Server: Computer or group of computers processing requests and serving content
+
+Common HTTP server software:
+
+Windows: Internet Information Services (IIS)
+
+Linux: Apache HTTP Server, Nginx, Apache Tomcat
+
+To run an HTTP server on AWS:
+
+Use AWS compute services via the AWS Management Console
+
+AWS Compute Options:
+
+Virtual Machines (e.g., Amazon EC2)
+
+Container Services (e.g., ECS, EKS)
+
+Serverless (e.g., AWS Lambda)
+
+Virtual Machines (EC2) are often the easiest entry point for those with traditional infrastructure knowledge.
+
+A hypervisor runs on a host machine to manage virtual machines
+
+In AWS, these VMs are called Amazon EC2 instances
+
+AWS manages the hypervisor, host machine, and guest operating system
+
+Amazon EC2 and AMIs
+
+Amazon EC2 is a web service that provides secure, resizable compute capacity in the cloud. You can provision virtual servers (EC2 instances) for any kind of workload—not just web servers.
+
+EC2 Instance Creation Options:
+
+AWS Management Console
+
+AWS CLI
+
+AWS SDKs
+
+Automation/Orchestration tools (e.g., CloudFormation, Terraform)
+
+To launch an EC2 instance, configure:
+
+Hardware specs (CPU, memory, networking, storage)
+
+Logical settings (network location, firewalls, OS, authentication)
+
+The first setting during launch is selecting an Amazon Machine Image (AMI).
+
+What is an AMI?
+
+An Amazon Machine Image (AMI) defines the OS and software configuration for your EC2 instance.
+
+In traditional IT, you'd manually install an OS—AMIs eliminate this step
+
+AMIs include OS, architecture (32/64-bit, ARM), storage mappings, and software
+
+AMI vs EC2 Instance:
+
+AMI = recipe (like a class definition in code)
+
+EC2 = actual running server (like an object created from a class)
+
+How EC2 uses AMIs:
+
+AWS allocates a VM using the hypervisor
+
+The selected AMI is copied to the root volume
+
+The system boots, and you're ready to install packages or serve content
+
+Reusability and Custom AMIs
+
+You can create your own AMI from a configured EC2 instance
+
+This enables easy replication of that instance without repeating configuration steps
+
+AMI Categories:
+
+QuickStart AMIs – pre-made by AWS
+
+AWS Marketplace AMIs – third-party options
+
+MyAMIs – custom AMIs you’ve created
+
+Community AMIs – from the AWS user community
+
+EC2 Image Builder – for automated custom image creation
+
+Each AMI has a unique AMI ID that is region-specific.
+
+Stop vs Stop-Hibernate
+
+When you stop your instance:
+
+It enters the stopping → stopped state.
+
+Billing stops for usage and data transfer (but EBS storage charges remain).
+
+Data in RAM is lost.
+
+You can change some instance attributes like instance type.
+
+When you stop-hibernate:
+
+AWS saves the contents of RAM to your EBS root volume.
+
+Instance resumes from where it left off.
+
+Ideal for use cases that rely heavily on RAM caching, such as custom backend cache layers.
+
+EC2 Pricing Breakdown
+Instance Pricing ≠ Total Pricing
+
+EC2 pricing is based on:
+
+Compute (instance type and specs)
+
+Storage (EBS volumes)
+
+Networking (data transfer)
+
+Instances are billed per second, but pricing is shown per hour for clarity.
+
+E.g., 5m 38s = 338 seconds of billing
+
+Marketplace AMIs may require a 1-hour minimum
+
+EC2 Pricing Options
+1. On-Demand Instances (Pay-As-You-Go)
+
+No long-term commitment
+
+Billed while running
+
+Fixed price per second
+
+Good for unpredictable workloads or short-term testing
+
+Drawback: For always-on workloads (e.g., web servers), On-Demand is more expensive than Reserved.
+
+2. Reserved Instances (RIs)
+
+1-year or 3-year commitment
+
+Discounted hourly rate
+
+Optional capacity reservation
+
+Payment options: All Upfront > Partial Upfront > No Upfront (descending discounts)
+
+Even if stopped, RIs still incur charges because of the reserved capacity.
+
+3. Spot Instances
+
+Take advantage of unused capacity
+
+Up to 90% discount vs On-Demand
+
+Set max price you're willing to pay
+
+AWS may interrupt instance (with 2-minute warning)
+
+Best for:
+
+Fault-tolerant, interruptible workloads
+
+Examples: CI/CD, big data, HPC, rendering, dev/test
+
+Resources:
+
+https://aws.amazon.com/ec2/
+
+https://docs.aws.amazon.com/vpc/latest/userguide/default-vpc.html
+
+https://docs.aws.amazon.com/wellarchitected/latest/reliability-pillar/welcome.html
+
+https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/ec2-instance-lifecycle.html
+
+https://aws.amazon.com/ec2/pricing/
+
+https://aws.amazon.com/ec2/pricing/on-demand/
+
+https://aws.amazon.com/ec2/spot/pricing/
+
+https://aws.amazon.com/ec2/pricing/reserved-instances/pricing/
 
