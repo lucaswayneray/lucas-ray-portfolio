@@ -563,3 +563,202 @@ https://aws.amazon.com/ec2/spot/pricing/
 
 https://aws.amazon.com/ec2/pricing/reserved-instances/pricing/
 
+REMOVE THE UNDIFFERENTIATED HEAVY LIFTING
+
+If you run your code on Amazon EC2, AWS is responsible for the physical hardware and you are responsible for the logical controls, such as guest operating system, security and patching, networking, security, and scaling.
+
+If you run your code in containers on Amazon ECS and Amazon EKS, AWS is responsible for more of the container management, such as deploying containers across EC2 instances and managing the container cluster. However, when running ECS and EKS on EC2, you are still responsible for maintaining the underlying EC2 instances.
+
+If you want to deploy your workloads and applications without having to manage any EC2 instances, you can do that on AWS with serverless compute.
+
+GO SERVERLESS
+
+Every definition of serverless mentions four aspects.
+
+No servers to provision or manage.
+
+Scales with usage.
+
+You never pay for idle resources.
+
+Availability and fault tolerance are built-in.
+
+With serverless, spend time on the things that differentiate your application, rather than spending time on ensuring availability, scaling, and managing servers.AWS has several serverless compute options, including AWS Fargate and AWS Lambda.
+
+EXPLORE SERVERLESS CONTAINERS WITH AWS FARGATE
+
+Amazon ECS and Amazon EKS enable you to run your containers in two modes.
+
+Amazon EC2 mode
+
+AWS Fargate mode
+
+
+
+AWS Fargate is a purpose-built serverless compute engine for containers. Fargate scales and manages the infrastructure, allowing developers to work on what they do best: application development.
+
+It achieves this by allocating the right amount of compute, eliminating the need to choose and handle EC2 Instances and cluster capacity and scaling. Fargate supports both Amazon ECS and Amazon EKS architecture and provides workload isolation and improved security by design.
+
+AWS Fargate abstracts the EC2 instance so you’re not required to manage it. However, with AWS Fargate, you can use all the same ECS primitives, APIs, and AWS integrations. It natively integrates with AWS Identity and Access Management (IAM) and Amazon Virtual Private Cloud (VPC). Having native integration with Amazon VPC allows you to launch Fargate containers inside your network and control connectivity to your applications.
+
+RUN YOUR CODE ON AWS LAMBDA
+
+If you want to deploy your workloads and applications without having to manage any EC2 instances or containers, you can use AWS Lambda.AWS Lambda lets you run code without provisioning or managing servers or containers. You can run code for virtually any type of application or backend service, including data processing, real-time stream processing, machine learning, WebSockets, IoT backends, mobile backends, and web apps, like your corporate directory app!
+
+AWS Lambda requires zero administration from the user. You upload your source code and Lambda takes care of everything required to run and scale your code with high availability. There are no servers to manage, bringing you continuous scaling with subsecond metering and consistent performance.
+
+HOW LAMBDA WORKS
+
+There are three primary components of a Lambda function: the trigger, code, and configuration.The code is source code, that describes what the Lambda function should run. This code can be authored in three ways.
+
+
+You create the code from scratch.
+
+You use a blueprint that AWS provides.
+
+You use same code from the AWS Serverless Application Repository, a resource that contains sample applications, such as “hello world” code, Amazon Alexa Skill sample code, image resizing code, video encoding, and more.
+
+When you create your Lambda function, you specify the runtime you want your code to run in. There are built-in runtimes such as Python, Node.js, Ruby, Go, Java, .NET Core, or you can implement your Lambda functions to run on a custom runtime.The configuration of a Lambda function consists of information that describes how the function should run. In the configuration, you specify network placement, environment variables, memory, invocation type, permission sets, and other configurations. To dive deeper into these configurations, check out the resources section of this unit.Triggers describe when the Lambda function should run. 
+
+A trigger integrates your Lambda function with other AWS services, enabling you to run your Lambda function in response to certain API calls that occur in your AWS account. This makes you quicker to respond to events in your console without having to perform manual actions.All you need is the what, how, and when of a Lambda function to have functional compute capacity that runs only when you need it to.Amazon’s CTO, Werner Vogels, says, “No server is easier to manage than no server.” This quote summarizes the convenience you can have when running serverless solutions, like AWS Fargate and AWS Lambda. 
+
+In the next unit, you apply all the information you’ve learned about Amazon EC2, Amazon ECS and Amazon EKS, and AWS Fargate and learn the use cases for each service.
+
+AWS Lambda function handler
+
+The AWS Lambda function handler is the method in your function code that processes events. When your function is invoked, Lambda runs the handler method. When the handler exits or returns a response, it becomes available to handle another event.You can use the following general syntax when creating a function handler in Python:
+
+def handler_name(event, context):  ... return some_value
+
+NAMING
+
+The Lambda function handler name specified at the time you create a Lambda function is derived from the following:the name of the file in which the Lambda handler function is located the name of the Python handler functionA function handler can be any name; however, the default on the Lambda console is lambda_function.lambda_handler. This name reflects the function name as lambda_handler, and the file where the handler code is stored in lambda_function.py. If you choose a different name for your function handler on the Lambda console, you must update the name on the Runtime settings pane.
+
+BILLING GRANULARITY
+
+AWS Lambda lets you run code without provisioning or managing servers, and you pay only for what you use. You are charged for the number of times your code is triggered (requests) and for the time your code executes, rounded up to the nearest 1ms (duration). AWS rounds up duration to the nearest millisecond with no minimum execution time. With this pricing, it can be very cost effective to run functions whose execution time is very low, such as functions with durations under 100ms or low latency APIs. For more information, see 
+AWS News Blog
+. 
+
+SOURCE CODE
+
+This video used a small amount of sample code illustrating a pattern for lazily generating assets using AWS Lambda and Amazon S3. If you’re looking to deploy a service to resize images to production, consider using the new release  
+ Serverless Image Handler 
+which is a robust solution to handle image manipulation and can be deployed via an AWS CloudFormation template.
+
+You can find a tutorial on creating the AWS Lambda function as well as the code used in the AWS Lambda demo here: see 
+AWS News Blog
+. 
+
+Resources:
+
+External Site:
+ AWS: Serverless
+
+Coursera Course:
+ Building Modern Python Applications on AWS
+
+External Site:
+ AWS: AWS Serverless resources
+
+External Site:
+ AWS: Building Applications with Serverless Architectures
+
+External Site:
+ AWS: Best practices for organizing larger serverless applications
+
+External Site:
+ AWS: Managing AWS Lambda functions
+
+External Site:
+ AWS: 10 Things Serverless Architects Should Know
+
+External Site:
+ AWS: AWS Alien Attack! A Serverless Adventure
+
+ What is Networking?- It's how you connect computers around the world and allow them to communicate w/ one another. AWS global infrstrctre
+ AWS has created a network of rsrcs using data cntrs, Avaliability Zones, and Regions
+
+ Know the ntwrkng basics- Sending a letter- Three pieces of info you need. 
+       *Payload or letter inside the envelpe
+       *The address of sender in the From section
+       *The address of recipient in the To section
+
+Each address must contain info such as:
+       * Name of sender and recipnt
+       * Street
+       * City
+       * State or provice
+       * Zip, area, or postal code
+       * Country
+
+Need all parts of an addrss to ensre that your letter gets to destntion. W/out the crrct addrss, postl wrkrs are not able to properly deliver the message. In the digital world, computers handle the delivery of messages in simlr way. Called routing. 
+
+What are IP Addresses?- To properly route messges to location, need an adress, each comp has IP addrss. IP uses 0's and 1's
+
+IPV4 Notation- usually IP addrss is convrted into decimal format and noted as an IPV4 address. Grouped into 8 bits (octets). converted into decml format seprted by a period (192.168.1.30)
+
+Good for commncting w/ one comp, but we are using a network- use CIDR notation
+
+192.168.1.30 is a single IP addrss- if want to express IP addrsses bt the range of 192.168.1.0 and 192.168.1.255, one way is to use CIDR (Classless Inter-Domain Routing) notation. CIDR is comprssed way of spcfying range of IP addresses. Spcfying a range detrmnes how many IP addrsses are availble to you. Looks like- 192.168.1.0/24
+
+Begins w/ strting IP addrss and is seprted by forwrd slsh (the "/" charctr) follwed by a numbr. The numbr at end spcfs how many of the bits of the IP addrss are fixed. In above ex the first 24 bits are fixed, rest are flexible.
+
+32 total bits subtrctd by 24 fixed bits leaves 8 flexble bits- Each of these flxble bits can be either 1 or 0 bc theyre binary. Means you have two choices for each of 8 bits, prvdng 256 IP addrsses in that IP range. 
+
+The higher the number after the /, the smaller the num of IP addrsses in your network. For ex: range of 192.168.1.0/24 is smaller thatn 192.168.1.0/16
+
+When netwrkng in AWS cloud choose ntwrk size by using CIDR notation. In AWS smalles ranget is /28- gives you 16 IP addrsses. Largest IP range can have is /16, prvides you w/ 65,536 IP addrsses.
+
+Resources:
+
+External Site:
+ Stanford: Introduction to Computer Networking
+
+External Site:
+ Ionos: CIDR: What is classless inter-domain routing?
+
+ Intro to Amazon VPC- VPC is an islted ntwrk you create in the AWS cloud, simlar to trdtional ntwrk in data center. When you create a VPC need 3 main things: 1. Name of you VPC
+         2. Region for your VPC to live in. Each VPC spans multple Availability Zones w/ in the region you choose.
+         3.An IP range for your VPC in CIDR notation. Detrmnes the size of your ntwrk. Each VPC can have up to four /16 IP ranges
+
+AWS will provision a network and IP addresses for that network. 
+
+Create a subnet- After you create your VPC you need to create subnets inside of this network. Subnets are smaller netwrks inside your base ntwrk- or virtual area ntwrks (VLANs) in a trad, on-prem netwrk. In an on-prem netwrk, the typical use case for subnets is to isolate or optmize ntwrk trffic. In AWS, subnets are used for high availblty and prvding diff cnnctvty options for your rsrcs. When you create a subnet need to choose 3 settings:
+
+1. VPC you want your subnet to live in, in this case (10.0.0.0/16)
+2. The availability zone you want your subnet to live in, in this case AZ1
+3. A CIDR block for your subnet, which must be a subset of the VPC CIDR block in this case. 10.0.0.0/24
+
+When you launch an EC2 instnce, you launch it inside a subnet, which will be located inside the Availability Zone you choose.
+
+High Availability w/ a VPC- When you create your subnets, keep high availability in mind. In order to maintain redndcy and fault tolernce, create at least two subnets config'd in two dif Availability Zones.
+
+As you learned earlier in trail important to consider that "everything fails all the time"- If one of these AZs fail you still have rsrcs in another AZ avail as backup. 
+
+Reserved IPs for AWS to config your VPC apprprtly, AWS resrves five IP addrsses in each subnet. These IP addresses are used for routing. Domain Name System (DNS) and ntwrk mgmt.
+
+For ex: consider a VPC w/ the IP range 10.0.0.0/22. The VPC includes 1024 total IP addresses. THis is divided into 4 equal sized subnets, each w/ a /24 IP range w/ 256 IP addrsses. Out of each of those IP ranges, there are only 251 IP addresses that can be used bc AWS reserves 5.
+
+Since AWS reserves these 5 IP addrsses, it can impact how you design your ntwrk. A common starting point is a range of /16 and subnets w/ a IP range of /24. Prvides a large amount of IP addrsses to work w/ at bothe the VPC and subnet level.
+
+Gateways- To enable intrnt connctvty for your VPC, need to create an internet gatesway- Similar to a modem. Internet gateway cnncts your VPC to the intrnt- unlike a modem at home, gateway is highly availble and scalble- after you create a gateway need to attach it to your VPC
+
+Virtual Private Gateway- allws you to cnnct your AWS VPC to anther private ntwrk. Once you create and attach a VGW to a VPC, gateway acts as anchor on AWS side of the cnnction- On the other side of the cnnctn, need to cnnct a custmer gteway to other prvate ntwrk. a custmr gteway dvc is a physcal dvc or sftwre app on your side of the cnnction. Once you have both gateways, can estblsh an encrpted VPN cnnction bt the two sides. 
+
+Resources: 
+
+External Site:
+ AWS: VPC with public and private subnets (NAT)
+
+External Site:
+ AWS: custom route tables
+
+External Site: Customer Gateway 
+
+External Site:
+ AWS: What Is Amazon VPC? 
+
+External Site:
+ AWS: VPCs and subnets
+
