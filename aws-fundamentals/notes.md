@@ -762,3 +762,113 @@ External Site:
 External Site:
  AWS: VPCs and subnets
 
+nbound rules
+
+The Main Route Table- when you create a VPC, AWS cretes a route table called the main route table. A route table contains a set of rules, called routes, that are used to determne where netwrk trffic is drcted. AWS assumes that when you create a new VPC w/ subnets, you want traffic to flow bt them. Therefore, the dflt configrtion of the main route table is to allow trffic bt all subnets in local network. 
+
+Destination      Target         Status     Propagated
+10.2.0.0/16      local          active     No
+
+Two main parts to this route table-
+1. the destnation which is a range of IP addresses where you want your traffic to go. In ex of sending a letter, need a destntion to route the letter to the apprprate place. Same is true for routing trffic. In this case, the destnation is the IP range of our VPC network
+
+2. The target which is the cnnction through which to send the trffic. In this case, the trffic is routed through the local VPC network
+
+Custom Route Tables- While main route table ctrsl the routing for your VPC, may want to be more granular about how you route your trffic for spcfic subnets. For ex: your app may consist of a frontend and a database. You can create seprte subnets for these rsrcs and prvde diff routes for each of them.
+
+If you associate a custom route table w/ a subnet, the subnet will use it instead of the main route table. By default each custom route table you create will have the local route already inside of it, allwng communcation to flow bt all rsrcs and subnets inside the VPC. 
+
+Secure your subnets w/ network ACLs- think of as a firewall  at the subnet level. A network ACL enables you to ctrl what kind of trffic is allwed to enter or leave your subnet. Can configure this by setting up rules that define what you want to filter
+
+INBOUND
+Rule#   Type  Protocol  PortRange  Source  Allow/Deny
+100    All    All       All        0.0.0.0/0  ALLOW
+       IPv4
+       Traffic
+
+*      All    All       All        0.0.0.0/0   DENY
+       IPv4
+       Traffic
+
+OUTBOUND
+RULE#   Type   Protocol PortRange  Source  Allow/Deny
+100     All     All      All      0.0.0.0/0 ALLOW
+        IPv4
+        Traffic
+
+*       All      All      All     0.0.0.0/0  DENY
+        IPv4
+        Traffic
+
+The default network ACL, shown in table above allows all trffic in and out of your subnet. To allow data to flow freely to your subnet, this is a good starting place. However, may want to restrct data a subnet level. For ex: if you have a web app, might restrct your ntwrk to allow HTTPS trfic and remote desktop protocol (RDP) trffic to your web servers
+
+Inbound
+
+
+
+
+
+
+Rule# SourceIP Protocol Port Allow/Deny Comments
+
+100   All 
+      IPv4 
+        traffic   TCP     443   ALLOW   Allows inboun
+                                        HTTPS traffic
+                                        from anywhere
+
+130  192.0.2.0/24 TCP    3389   ALLOW   Allows     inbound RDP traffic to the web servers from your home network’s public IP address range (over the internet gateway)
+
+*      All 
+       IPv4 
+       traffic   All      All    DENY    Denies all inbound traffic not already handled by a preceding rule (not modifiable)
+
+Outbound
+Rule#  DestinationIP Protocol Port Allow/DenyComments
+
+120    0.0.0.0/0     TCP   1025-65535 ALLOW Allows outbound responses to clients on the internet (serving people visiting the web servers in the subnet)
+
+*      0.0.0.0/0      All     All    DENY     Denies all outbound traffic not already handled by a preceding rule (not modifiable)
+
+In network ACL ex above, you allow inbound 443 and outbound range 1025-65535. BC HTTPuses port 443 to initiate a connction and will respnd to an ephemeral port. Netwok ACLs are considered stateless, so you need to inclde both the inbound and outbound ports used for the protcol. If you don't inclde outbound rnge your server would respnd but the trffic would never leave the subnet. Since netwrk ACLs are config'd by dflt to allw incming and outgoing trffic, don't need to change initial settngs unless need addtnl secrty layers.
+
+Secure EC2 instnces w/ Secrty Groups- next layer of secrty is for your EC2 instnces. HEre can create a firewall called a scrty gtoup. Deflt configrtion of a scrty group blcks all inbnd trffic and allws all outbound trffic.
+
+"Wouldn't this block all EC2 instnces from rcvng rspnse of any custmer rquests?"- Security groups are stateful, meaning they will remember if a cnnction is originally initiated by the EC2 instnce or from the outside and temprarily allow trffic to respnd w/out having to modfy the inbound rules.
+
+If you want EC2 instnce to accpt trffic from the intrnet need to open up inbound ports. If have a web server, many need to accpt HTTP and HTTPS rqusts to allow that type of trffic in through your secrty group. can cfreate aninbnd rule that will allow port 80 (HTTP) and port 443 (HTTPS)
+
+Inbound rules
+Type     Protocol   Port Range   Source
+
+HTTP(80) TCP(6)      80         0.0.0.0/0
+
+HTTP(80) TCP(6)      80          ::/0
+
+HTTPS(443) TCP(6)    443        0.0.0.0/0
+
+HTTPS(443) TCP(6)    443         ::/0
+
+Subnets can be used to segrgte trffic bt comps in netwrk. Scrty groups can be used to do same thing. Common design pttrn is orgnzing your rsrcs into diff groups and creating scrty groups for each to ctrl ntwrk comm bt them.
+
+This allows you to define three tiers and islte each tier w/ scrty group rules you define. In this case, only allow intrnet trffic to the web tier over HTTPS, Web Tier to App Tier over HTTP, and Application tier to Database tier over MySQL. Diff from trad on-prem envrnmnts, in whch you islte groups of rsrcs via VLAN configrtn- in AWS, scrty groups allow you to achve same islation w/out tying it to your ntwrk.
+
+Resources:
+
+External Site:
+ AWS: Route tables
+
+External Site:
+ AWS: Example routing options
+
+External Site:
+ AWS: Working with routing tables
+
+External Site:
+ AWS: Network ACLs
+
+External Site:
+ AWS: Security groups for your VPC
+
+External Site:
+ AWS: I host a website on an EC2 instance. How do I allow my users to connect on HTTP (80) or HTTPS (443)?
