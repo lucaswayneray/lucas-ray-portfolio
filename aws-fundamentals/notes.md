@@ -872,3 +872,29 @@ External Site:
 
 External Site:
  AWS: I host a website on an EC2 instance. How do I allow my users to connect on HTTP (80) or HTTPS (443)?
+
+ Common network troubleshooting steps for Amazon VPC- Will see Employee Directry App launched on Amazon EC2 instnce placed in public subnet in   Amazon VPC. Multple netwrkng configrtions that playt into whether an instnce is accssble to internet or not. 
+
+ List of congigs you should check if you have public EC2 instnce w/ web app that is not loading as expected. 
+
+ 1. Internet gateway- ensure that Internet Gateway (IGW) is attched to your VPC. W/out internet gateway no traffic will be allowed in or out of the VPC.
+
+ 2. Route Tables- Check the route table associated w/ the subnet of your EC2 instnce. Ensure ther is a route w/ a destntion of 0.0.0.0/0 that points to the Internet Gateway. This route allows outbound trffic to the internet. 
+
+ 3. Security Groups- Review the security group settings attched to your EC2 instnce. Make sure there are inbound rules allwing HTTP (port 80) and/or HTTPS (port 443) traffic from the internet (0.0.0.0/0). Also verify that outbound rules allow traffic to leave the instance.
+
+ 4. Network Access Control Lists- Check the NACLs associated w/ your subnet. Ensure that they allow inbound and outbound traffic for HTTP and HTTPS. Unlike secrty groups, NACLs are stateless, so you must explctly allow both inbound and outbound rules.
+
+ 5. Public IP Address- Ensure your EC2 instnce has a public IP addrss assgned. You can check in the EC2 console under the instance details. If does not have a public IP, relaunch the instnce and ensure you have the configrtion for assgnning a public IP addrss set crrctly.
+
+ HTTP vs HTTPS- Confirm that your app is acssble via the crrct prtcol. If your app is config'd for HTTPs, ensure SSL/TLS certs are crrctly instlled and config'd. Also, check if the web browser is trying to conncect via the wrong protcol (HTTP instead of HTTPS or vice versa). For this course, the app is operating via HTTP, double check that your browser is not trying to connct via HTTPs. Can do this by selcting the addrss bar in the brwser and making sure the addrss starts w/ http and not https.
+
+ 7. User data script- If your instnce uses a user data script to configre the app on launch, verify that the scrpt has run succssflly. Check the instnce logs (/var/log/cloud-init.log or /var/log/cloud-init-output.log) for any errors that may have occrred dring the excution of the user data script.
+
+ 8. Permissions- Vergy the prmssions and roles attched to your EC2 instnce. Ensre the instnce has the necssr IAM roles and polcies to access any requred AWS services, such as S3, DynamoDB, or RDS
+
+ 9. Personal network permissions- Ensre that your persnal or coprrate netwrk does not have restrctions blocking access to the public IP address of your EC2 instnce. Some ntwrks might have frewlls or prxy settngs that could block outbound trffic to certain IP ranges or ports.
+
+ 10. Application- ensure that your app code is crrctly deplyed and running. Check the application's logs to diagnose any runtime errors. Also, make sure the web server (e.g., Apache, Nginx) is installed and rnning.
+
+ 
