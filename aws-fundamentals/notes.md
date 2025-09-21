@@ -891,10 +891,160 @@ External Site:
 
  7. User data script- If your instnce uses a user data script to configre the app on launch, verify that the scrpt has run succssflly. Check the instnce logs (/var/log/cloud-init.log or /var/log/cloud-init-output.log) for any errors that may have occrred dring the excution of the user data script.
 
- 8. Permissions- Vergy the prmssions and roles attched to your EC2 instnce. Ensre the instnce has the necssr IAM roles and polcies to access any requred AWS services, such as S3, DynamoDB, or RDS
+ 8. Permissions- Verfy the prmssions and roles attched to your EC2 instnce. Ensre the instnce has the necssr IAM roles and polcies to access any requred AWS services, such as S3, DynamoDB, or RDS
 
  9. Personal network permissions- Ensre that your persnal or coprrate netwrk does not have restrctions blocking access to the public IP address of your EC2 instnce. Some ntwrks might have frewlls or prxy settngs that could block outbound trffic to certain IP ranges or ports.
 
  10. Application- ensure that your app code is crrctly deplyed and running. Check the application's logs to diagnose any runtime errors. Also, make sure the web server (e.g., Apache, Nginx) is installed and rnning.
 
- 
+Week 2 quiz Review: Which info is needed to create a virtual private cloud? (VPC)- 
+
+The AWS Region that the VPC will reside in. When creating a VPC in AWS the only required location related input is the AWS Region. Once the VPC is created, Avlblty Zonces and Subnets are dfned w/in that VPC- But not needed at VPC creation. 
+1. Choose Region
+2.Can then create subnets that are mpped to spcfc Availblty Zones (AZs) in that region
+
+Which of the follwing can a route table be attched to? AWS accounts- AZ- Subnets- Regions
+
+Answer: Subnets
+
+Route tables in AWS defne how ntwrk trffc is drcted. They're attched to subnets in a VPC- Each subnet in a VPC must be asscted w/ a route table. Can explctly asscate a route table w/ a subnet, or will use the main route table by default. 
+
+It's not AWS accounts bc route tables are not attched to accnts- they are a resrce w/ in a specfic VPC in an account, but not attched to the account
+
+It's not Availblty zone bc route tables don't apply to AZs. Instead subnets, whch exst inside a spcfc AZ are what route tables are attched to.
+
+It's not regions like AZs, regions are too broad. A route table is a regional resource, but it is not "attached" to the region. 
+
+
+A compny wnts to allw rsrcs in a public subnet to commncte w/ the intrnet. Whch of the fllwing must the company do to meet this requrment?- Create a route to a private subnet? Attach an Internet gateway to their VPC? Create a route in a route table to the internet gateway? A and B? B and C?
+
+Answer: B and C- Attach an internet gateway to their VPC and create a route in a route table to the internet gateway. 
+
+To allow rsrcs in a public subnet to commncte w/ the internet the company must- Attach an internet gateway to their VPC- the internet gateway (IGW) is the compnnt that allws trffic bt your VPC and the internet. AND Create a route in a route table to the internet gateway- the subnet's route table must include a route that snds all outbnd trffc (0.0.0.0/0) to the intrnet gateway. These two steps tgther make the subnet public and allow intrnet accss
+
+It's not Create a route to a privte subnet bc it doesn't enable intrnet accss. Routing to a prvte subnet stys w/ in the VPC and doesn't cnnct to the internet.
+
+Not A and B bc creating a route to a prvte subnet (A) is unnecessary for public internet access. 
+
+What is compute as a service (Caas) model?- The CaaS model offers compting rsrcs (such as virtual mchines that run on srvrs in data cntrs) on demand, by using virtual servces. 
+
+CaaS is a cloud compting model that prvdes on-dmnd accss to compting power (Virtual machines (VMs))- Containers- Auto-scaling compute resrcs- This model allws users to prvsion, scale and manage computing rsrcs dynmclly- w/out mangng the underlying physcal hardwre.
+
+It's not "requres users to prchase VMs and manlly prvsion srvrs- closer to a tradtnl hosting model like IaaS (Infrstrctre as a Service) w/out automation- 
+
+NOT "Large discounts, but must run on-prem"- the opposite of cloud-based and on-demand nature of CaaS
+
+NOT "Delivers cloud-based apps to users acrss the globe"- that descrbes SaaS (Software as a Service)
+
+The settings of a security group block all inbound trffic and allows all outbound trffic by default- In AWS a scrty group acts as a virtual frewall for your EC2 instnces to ctrl inbound and outbound trffic. 
+Inbound (default)- all inbound trffic is blcked- must explctly allow inbound by adding inbound rules. 
+Outbound (default) ALL outbound trffic is allwec by dfault- means instnces can iniitaie trffic to the intrnet or other rsrcs w/out any configrtion.
+
+What does an Amazon Elastic Compute Cloud (Amazon EC2) instnce type indicate?- 
+Instnce family and size- An Amazon EC2 instnce type dfnes the hardwre specfctions of the virtual srver you're launching. Spcfclly, it indctes: Instnce family- reps the catgry of the instnce based on its intnded wrkload (e.g., compute optimized, memory-optmzed, general purpose)- 
+EXs: 
+t3- General Purpose
+c6g- Compute optmzed
+r5- Memory optmzed
+
+Instnce size- Spcfies the rsrcs (vCPU, RAM, netwrking) within that family. 
+EXs:
+t3.micro, t3.medium, t3.large- All sizes w/in the t3 family.
+
+EX: t3.micro- t3= instnce family
+micro = instnce size. 
+
+NOT Instnce plcement and size- Placement is not part of the type
+
+NOT Instnce tenancy and billing- these are seprte settngs, not inclded in the "instnce type"
+
+NOT AMI and networking speed- the AMI is a seprte compnnt you choose; netwrkng speed ma vary by type but is not part of the naming convntion.
+
+What is the difference bt using AWS fargate or Amazon Elastic Compute Cloud (Amazon EC2) as the compute platform for Amazon Elastic Container Service (Amazon ECS)? 
+
+With AWS Fargate, AWS manges and prvsions the underlying infrstrctre for hostng cntners.
+
+When using Amazon ECS (Elastic Container Service)- you can choose bt two main compute platforms. AWS Fargate and Amazon ECS on EC2.
+
+AWS Fargate- 
+Servrless compte engine for containers- 
+Don't manage servrs or clsters
+AWS autmtclly prvsions, scales, and manges the infrstrctre
+You simply define the task defntion (CPU, memory, container image), and AWS handles the rest
+You only mangage your containers- AWS manges the compute
+
+Amazon ECS on EC2
+You run ECS tasks on a cluster of EC2 instnces
+Must launch, scale, patch, and manage the EC2 instnces
+Gives you more control over instnce types, netwrking and cost
+You are respnsble for manging the infrstrctre. 
+
+With Amazon ECS on EC2 you manage the instnces yourself
+
+AWS Fargate removes the need to mange cluster capcty.
+
+ECS does not handle source code builds or full dplyment autmtion- you need to contnerize your code and mange the EC2 infrstrctre- 
+
+With a serverless computing model- Users do not pay for idle rsrcs- (AWS Lambda, Fargate, etc.) 
+Users only pay for the compute time their code actually uses, 
+Do not pay when the code is idle, 
+Don't have to provsion, 
+Scale or manage servers, benefit from built-in avalbty and fault tolernce. 
+
+True or false: AWS Lambda is alwys the best soltion when rnning apps on AWS- FALSE
+
+AWS Lambda is a good fit for: 
+Short lived fnctions (event-driven tasks, APIs, file prcssing)
+Auto-scaling needs w/out mnging infrstrctre
+Lightweight workloads w/ unprdctble or intrmttnt trffic
+
+Lambda not ideal with:
+Long-running apps (max exction time is 15 min)
+Large workloads w/ high memory/CPU needs
+Apps that reqre persistnt cnnctions (e.g. Websockets)
+Complex depndncies or contaner based archtctres
+When you need fine-grained ctrl over the runtime envrnmnt or ntwrking
+
+AWS Lambda is great for many use cases, but not always the best. Depnds on apps archtcre, perfrmnce needs and cost constrnts. 
+
+Which compute service does Amazon Elastic Compute Cloud (Amazon EC2) prvde?- Virtual Machines (VMs)
+
+Amazon Elastic Compute Cloud (Amazon EC2) prvdes scalble virtual machines (VMs) in the cloud. These VMs run on physicl servrs in AWS data centers and can be config'd w/
+Custom amnts of CPU, memory, storage, and netwrking. 
+Various OSs (Linux, Windows, etc)
+Support for manual or auto-scaling
+Full adminstrtve ctrl
+
+NOT container servces through Amazon ECS or Amazon EKS, not EC2 drctly (Although EC2 can host contners)
+
+NOT serverless- AWS Lambda is the main servrlss compute option. EC2 requres servr prvsning and mgmt.
+
+NOT Analytics- AWS prvdes analtics via servcs like Amazon EMR, Athena, and Redshift, not EC2.
+
+Which stage of the instnce lifecycle is an instnce in when the account strts to accmlte charges?- When an instnce is in a running stage.
+
+Which component of the c5.4xlarge instnce detrmnes the instnce famly and genrtion number? 
+4x
+Large
+4xlarge
+c5
+
+Answer: c5
+
+c5 id's the Instance family "c"= Compute optmzed
+AND Generation number "5"= 5th generation
+
+4xlarge- Instance size (CPU/RAM config)
+
+Which container runtime can be used to host a contner on Amazon Elastic Compute Cloud (Amazon EC2) instance?
+Docker
+Container
+Amazon Simple Storage Service (Amazon S3)
+Amazon EC2
+
+Answer: Docker- a widely used container runtime that can be installed on an Amazon EC2 instnce to host and run containers. Allows you to pckge apps and depndncies into contners. Can manlly instll Docker on EC2 or use Amazon ECS (with the EC2 launch type) which uses Docker under the hood. 
+
+NOT Container which is a general term, not a runtime
+NOT Amazon Simple Storage Service (Amazon S3)- which is an object storage, not a compute or container runtime envrnmnt
+NOT Amazon EC2- which is the virtual machin (VM) itself, not the software used to run containers. 
+
