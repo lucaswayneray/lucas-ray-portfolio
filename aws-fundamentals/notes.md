@@ -1048,3 +1048,137 @@ NOT Container which is a general term, not a runtime
 NOT Amazon Simple Storage Service (Amazon S3)- which is an object storage, not a compute or container runtime envrnmnt
 NOT Amazon EC2- which is the virtual machin (VM) itself, not the software used to run containers. 
 
+
+
+TBC
+
+
+Week 3-
+
+Storage Types on AWS-Grouped into three diff catgries: Block Storage, File Storage, and Object Storage
+
+File Storage: Folders and Subfolders- used to organize- 
+Each file has metadata- name, size, and date created. 
+File also has a path e.g. computer/Application_files/Cat_photos/cats-03.png- can use to find file in hierarchy
+Ideal when you need centrlzed accss to files that need to be shared and mnged by multple host comps. Typclly mounted onto multple hosts and requres file lcking and intgrtion w/ exsting file system comm protcols. Common use cases are: 
+  Large Content repositories
+  Development Environments
+  User Home Dirctories. 
+
+Block Storage- file storage treats files as singlar unit, blcok storge splits files into fixed-size chunks of data called blocks that have their own addresses. Each block is addressable, blocks can be rtrved efficiently 
+When data is rqusted, these addrsses are used by the strge systm to orgnze the blcks in the crrct order to form a complte file to present back to the requstor. Outside of the address, there is no addtnl metadata asscted w/ each block. So, when you want to change a charctr in a file you just change the block, or the piece of the file that contains the charcter. This ease of access is why block strge solutions are fast and use less bandwdth. 
+Since blck strge is optmzed for low-latncy ops it is typcl strge choice for high-perfrmnce entrprse wrkloads, such as databases or entrprse rsrc planning (ERP) systems, that require low-latency storage
+
+Object Storage- Objcts, much like files are also treated as a single unit of data when stored. However, unlike file strge, these objcts are stred in a flat strctre instead of a hierarchy. Each object is a file w/ a unique IDer. This IDer, along w/ any addtnal metadata, is bundled w/ the data and stored. 
+With object storage, you can store almost any type of data, and there is no limit to the num of objcts stored, making it easy to scale. Object storage is genrlly useful when string large data sets, unstrctred files like media assets, and static assets, such as photos. 
+
+Relating back to Traditional Storage Systems- If you've worked w/ storage on-prem, may alrdy be famlr w/ block, file, and objct strge. Consider the fllwing techs and how they relate to systms you may have seen before. 
+  Block storage in the cloud is analogous to dirct attched storage (DAS) or a Storage Area Network (SAN)
+  File storage systems are often spprted w/ a netwrk attched storage (NAS) server.
+Adding more strge in a trad data center enviro is a more rigid prcess, as you need to purchse, instll, and configre these strge solutions. W/ cloud compting the prcss is more flxble. You can create, delete, and modify strge soltions all w/in a matter of minutes. 
+
+Resources:
+
+External Site:
+ AWS: What Is Cloud Storage
+
+External Site:
+ AWS: Types of Cloud Storage
+
+Amazon EC2 Instance Storage and Amazon Elastic Block Store-
+
+Amazon EC2 Instance Store- prvides temprry block-level strge for your instnce. This strge is lcted on disks that are phsclly attched to the host compter- ties the lifecycle of your data to the lifecycle of your EC2 instnce. If you delete your instnce, the instnce store is deleted as well. Due to this, instnce store is considered ephemeral strge. Read more here: https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/InstanceStorage.html
+
+Instnce store is ideal if you are hosting apps that replcte data to other EC2 instnces, such as Hadoop clusters. For these cluster-based wrkloads, having the speed of loclly attched volmes and the resiliency of replcted data helps you achve data distrbtion at high prfrmnce. Also idel for temp strge of info that chnges frqntly, such as buffers, caches, scrtch data, and other temp content.
+
+Amazon Elastic Block Strge (Amazon EBS)- as the name implies, Amazon EBS is a block-levl strge dvc that you can attch to an Amazon EC2 instnce. These strge dvcs are called Amazon EBS volumes. EBS volumes are essntlly drves of a user-config'd size attched to an EC2 instnce, similr to how you might attch an extrnl drive to your laptop. 
+EBS volumes act simlrly to extrnal drves in more than one way.
+  *Most Amazon EBS volumes can only be cnncted w/ one comp at a time. Most EBS volumes have a one-to-one reltnship w/ EC2 instnces, so they can't be shred by or attched to multple instnces at one time. Just released a multi-attach feature, not availble for all instnce types and must be in same AZ.
+  *Can detach an EBS volume from one EC2 instnce and attch it to another EC2 instnce in same AZ to accss data from it.
+  *The extrnl drive is seprte from the comp. That means is an accdnt hppns and the comp goes down, you still have your data on your extrnl drive. The same is true for EBS volumes.
+  *You're limited to the size of the extrnl drive since it has a fixed limit to how scalble it can be. For ex. May have a 2 TB extrnl drve and that means you can only have 2 TB of contnt on there. Relates to EBS as well since vlmes also have a max limitation of how much content you can store on the volume.
+
+Scale Amazon EBS Volumes- Can scale Amazon EBS volumes in two ways.
+  1. Increase the volume soze, as long as it doesn't increase above the max size limit. For EBS volumes, the max amnt of strge you can have is 16 TB. Means if you prvision a 5 TB EBS volume, you can choose to increase the size of your volume until you get to 16 TB.
+
+  2. Attch multple vlmes to a single Amazon EC2 instnce. EC2 has a one-to-many reltionshp w/ EBS volumes. Can add these addtnl volmes dring or after EC2 instnce creationt o prvde more strge capcty for your hosts.
+
+Amazon EBS Use Cases- Amazon EBS is useful when you need to rtrve data quickly and have data persist lont-term. Volumes are commonly used in the fllwing scnrios.
+
+  *Operating Systems: Boot/root volumes to store an OS. The root dvc for an instnce launched from an Amazon Machine Image (AMI) is typclly an Amazon EBS volume. These are commnly refrred to as EBS-backed AMIs
+  *Databases: a strge layer for databses running on Amazon EC2 that rely on transactional reads and wtites.
+  *Enterprise applications: Amazon EBS prvdes reliable blck strge to run busness-critical apps. 
+  * Throughput-intensive apps: Apps that prfrm long, continuous reads and writes
+
+EBS Provisioned IOPS SSD-
+  Description
+Highest performance SSD designed for latency-sensitive transactional workloads
+  Use Cases
+I/O-intensive NoSQL and relational databases
+  Volume Size
+4 GB-16 TB
+  Max IOPS/Volume 
+64,000
+  Max Throughput/Volume
+1,000 MB/s
+
+EBS General Purpose SSD
+  Description
+General Purpose SSD balnces price and prfrmnce for wide vrty of transctional wrkloads
+  Use Cases
+Boot volumes, low-latency interactive apps, devlpmnt, and test
+  Volume Size
+1 GB-16 TB
+  Max IOPS/Volume
+16000
+  Max Throughput/Volume
+250 MB/s
+
+Throughput Optimized HDD
+  Description
+Low-cost HDD desgned for frqntly accssed, throughput intensive wrkloads
+  Use Cases
+Big data, data warehouses, log processing
+  Volume Size
+500 GB-16 TB
+  Max IOPS/Volume
+500
+  Max Throughput/Volume
+500 MB/s
+
+Cold HDD
+  Description
+Lowest cost HDD designed for less frquntly accssed wrkloads
+  Use Cases
+Colder data requring fewer scans per day
+  Volume Size
+500 GB-16 TB
+  Max IOPS/Volume
+250
+  Max Throughput/Volume
+250 MB/s
+
+Two main catgries of Amazon EBS volumes: solie-state drives (SSDs) and hard-disk drives (HDDs). SSDs provide strong perfrmnce for random input/output (I/O), while HDDs prvde strng perfmnce for sequntial I/O. AWS offers two types of each. Above table will help decide which is best for your workload. 
+
+Benefits of Using Amazon EBS-
+  *High avlblty: when you create an EBS volume, it is autmtclly replcted w/ in its AZ to prvnt ata loss from single points of failure
+  *Data persistnce: the strge prsists even when your instnce doesn't
+  *Data encryption: All EBS volumes supprt encrption
+  *Flexblty: EBS volmes supprt on-the-fly chnges. Can modfy volume type, volme size, and input/output ops persecond (IOPS) capcty w/out stppng your instnce.
+  *Backups: Amazon EBS prvdes you the ablty to create bckups of any EBS volume
+
+  EBS snapshots- Errors happen. one of those errors is not backing up data, and then, inevtbly losng that data. To prvnt this, back up your data. Even in AWS. Since your EBS volmes consist of the data from your Amazon EC2 instnce, you'll want to take backups of these volmes, called snapshots
+  EBS snapshts are incrmntl backups that on ly save the blocks on the volume that have changed after your most recent snapshot. For ex if you have a 10 GB of data on a volume and only 2 GB of data have been modfied since your last snapshot, only the 2 GB that have been chnged are wrtten to Amazon Simple Storage Service (Amazon S3)
+When you take a snapshot of any of your EBS volumes, these backups are stred redntly in multple AZs using Amazon S3. This aspect of storing the backup in Amazon S3 will be handled by AWS, so you won't need to interact with Amazon S3 to work w/ your EBS snampshots, Simply mange them in the EBS consol (part of the EC2 console)
+EBS snapshots can be used to create multple new volmes, whether they're in the same AZ or a diff one. When you creat3e a new volume from a snbapshot it's an exact copy of the orignl volume at the time the snapshot was taken.
+
+Resources
+External Site:
+ AWS: Amazon Elastic Block Store (Amazon EBS) 
+
+External Site:
+ AWS: Amazon EBS FAQs 
+
+
+
+

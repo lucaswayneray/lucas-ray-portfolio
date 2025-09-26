@@ -433,3 +433,29 @@ Third iteration when adding my education: I am a skilled musician and educator 
 Job Search Plan
 People with a job search plan are 30% more likely to get a job- some strategies
 
+Plan Job Search with AI- Job SEarch plan- doument or chcklist that outlines the steps you need to take to manage your job search.- Personalized to you
+
+** Google Prompting essentials Course **
+
+Ask AI to to outline a job search plan, tell it about your needs- can include bckgrnd about yourself, like career ID statement. 
+
+EX Prompt: "Act as a career resource. Help me outline a practical job search plan. Create a step-by-step plan to find a new job as a marketing coordinator. For reference, mty career ID statement is:......
+
+Continue prompting to customize your job search plan-
+-Suggest more job boards for a specific industry
+-Include info about common challenges people face
+-Include amount of time you are able to spend each week
+-Format the plan in your preferrred style, like bulleted list or checklist
+
+Outline a personalized job search plan with Gemini
+
+Overview- A job search plan is a clear roadmap that breaks down the search process into steps and brings structure to your efforts
+In this activity, you'll use Gemini to outline a personalized job search plan. You'll describe the type of role you're interested in and provide your career ID statement. Then, Gemini will help you craft a step-by-step strategy. 
+
+Step 1: Prompt Gemini to outline your job search plan. 
+
+Open 
+Gemini
+ and write a prompt to help you outline a job search plan for your target role. Then click Submit.
+
+Example prompt: Help me outline a practical job search plan. Create a step-by-step plan to find a new job as a [job role/position]. For reference, my career identity statement is: [paste in your career identity statement]
