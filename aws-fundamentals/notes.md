@@ -1180,5 +1180,136 @@ External Site:
  AWS: Amazon EBS FAQs 
 
 
+Object Storage w/ Amazon S3: What is Amazon S3?- Standalone storge solution not tied to compte. Enables you to retrve your data from anywhere on the web. 
+Amazon S3 is an object storage servce- stores data in a flat strctre, using unque IDers to look up objcts when rqsted. Object is a file combned w/ metadata and that you can store as many of these objects as you want. 
+
+Understand Amazon S3 Concepts- in Amazon S3 you have to store your objcts in contners called buckets. Can't upload any objct, not even single photo to S# w/out creatng a bucket first. When you create a bucket you choose a minimum 2 things: bucket name and AWS Region you want the bucket to reside in. 
+First- choose the Region you want the bucket to reside in. Tpclly this wll be a Region that you've used for other rsrcs, such as your compute. When you choose a Region for your bucket, all objcts you put inside that bucket are redndntly sred acrss multple dvcs, acrss multple AZx this level of redndncy is dsgned to prvede Amazon S3 custmrs w 99.999999999% durblty and 99.99% avlblty for objcts over a given year. 
+Second- choose bucket name- must be unique across all AWS accnts. AWS stops you from chosing a bucket name that has already been chosen by someone else in another AWS account. Once you choose a name that name is yours and cannot be clmed by anyone else unless you delete that bucket, which then releases the name for others to use. 
+AWS uses this name as part of the objct IDer. in S3 each objct is IDd using a URL which looks like:
+http://doc.s3.amazonaws.com/2006-03-01/AmazonS3.html
+
+'doc' is the bucket
+2006-03-01/AmazonS3.html is the Object/key
+
+After the http://, you see the bucket name. here the bucket name is 'doc' Then the IDer uses the servce name, s3 spcfies the srvc prvder amazonaws. After that, you have an implied folder inside the bucket called 2006-03-01 and the objct insde the folder that is named AmazonS3.html. The objct name is oftn rfrred to as the key name.
+
+Can have fldrs insde of buckts to help ou orgnze objcts. However, remmber there's no actual file hierarchy that spprts this on the back end. It is a flat strctre where all files and flders live at the same level. Using buckets and folders implies a hierarchy, which makes it easy to undrstnd for the human eye. 
+
+S3 Use Cases- one of the most wdely used strge srvcs, with far more use cases than could fit on one screen. The fllwng list smmrzes most common uses.
+
+  *Backup and storage- S3 is natural place to back up files bc it is highly redndnt. as mentioned in the las unit, AWS stres your EBS snapshts in S3 to take advntge of its high avlblty. 
+  *Media hosting- BC you can store unlmted objcts, and each indvdl objct can be up to 5 TBs, S3 is an ideal loction to host video, photo, or music uploads. 
+  *Software delvry- You can use S3 to host your software apps that custmers can download.
+  *Data lakes: S3 is an optimal foundtion for a data lake bc of its vrtlly unlmted sclblty. You can increase strge from gigabytes to petabytes of content, paying for only what you can use
+  *Static websites- You can config your bucket to host a static website of HTML, CSS, and client-side scripts.
+  *Static content- BC of the limitless scling, the supprt for large files, and the fact that you access any objct over the web at any time, S3 is the perfct plce to store static content.
+
+Choose the right Connctvity Option for your Rsrces-
+Evrythng in Amazon S# is private by dflt. This means that all S3 resrces, such as buckets, folders, and objcts can only be viewedby the user or AWS account that created that rsrc. Amazon S3 rsrcs are all prvte and prtcted to begin with.
+
+If you decide you want evryone on the internet to see your photos, you can choose to make your buckets, folders,and objcts public. A public rsrc means that evryone on the intrnet can see it. Most of the time, you don't want your prmssions to be all or nthng. Typclly you want to be more grnular about the way you prvide access to your rsrcs.
+
+To be more spcfc about who can do what w/ your S3 rsrcs, Amazon S3 prvdes two main accss mgmt featres: IAM policies and S3 bucket policies. 
+
+Understand IAM policies- When Iam polcies are attched to IAM users, groups, and roles, the polcies define which actions they can prfrm. IAM polcies are not tied to any one AWS servce and can be used to define access to nearly any AWS action. You should use IAM polcies for prvte buckets when:
+  *You have many buckets w/ diff permssion reqrmnts. Instead of defning many diffrnt S3 bucket polcies, you can use IAM polcies instead
+  *You want all polcies to be in a centrlzed location. Using IAM polcies allws you to manage all policy info in one location. 
+
+Understand S3 Bucket Policies- S3 bucket polcies are simlar to IAM polcies, in that they are both defined using the same policy lang in a JSON format. The Diff is IAM polcies are attched to users, groups, and roles, whereas S3 bucket polcies are only attched to buckets. S3 bucket polcies specfy waht actions are allwed or dnied on the bucket.
+For ex: if you have a bucket called employeebucke, you can attch an S3 bucket polcy to it that allws another AWS account to put objcts in that bucket.
+Or if you wanted to allow anonymous viewers to read the objcts in employeebucket, then you can apply a policy to that bucket that allows anyone to read objcts in the bucket using "Effect": Allow on the "Action["s3:GetObject"]"
+
+Here's an ex of what that S3 bucket policy may look like.
+
+{
+
+    "Version":"2012-10-17",
+    "Statement":[
+
+      {
+
+        "Sid":"PublicRead",
+
+        "Effect":"Allow", 
+
+        "Principal":"*",
+
+        "Action":["s3:GetObject"],
+
+        "Resource":["arn:aws:s3:::employeebucket/*"]
+
+      }
+    ]
+}
+
+S3 bucket policies can only be placed on buckets, and can't be used for folders or objcts. However, the policy that is placed on the bucket applies to every objct in that bucket. You should use S3 bucket polcies when:
+  *You need a simple way to do cross-account access to S3, w/out using IAM roles.
+  *Your IAM policies bump up against the defined size limit. S3 bucket polcies have a larger size limit
+
+Encrypt S3- Amazon S3 reinforces encrption in trnsit (as it travels to and from Amazon S3) and at rest. To prtct data at rest, you can use:
+  *Server-side encrption: this allws Amazon S3 to encrpt your objct before saving it on disks in its data centers and then decrypt it when you download the objcts
+  *Client-side encrption: encrpt your data client-side and upload the encrpted data to Amazon S3. In this case, you manage the encrption prcess, the encrption keys, and all related tools.
+
+To encrpt in transit, you can use client-side encrption or Secure Sockets Layer (SSL)
+
+Use Versioning to Preserve Objects- As ou know Amazon S3 IDs objcts in part by using the onjct name. For ex: when you upload an emplyee photo to S3, you may name the objct employee.jpg and store it in a folder called employees. If you don't use Amazon S3 versioning, anytime you upload an objct called employee.jpg to the employees folder, it overwrites the orignal file. This can be an issue:
+  *employee.jpg is a common name for an employee photo objct. You or someone else who has access to that bucket might not have intnded to overwrite it, and now that you ahve, no longer have access to the orignl file.
+  *May want to preserve diff versions of employee.jpg. Without versioning, if you wantd to create a new version of employee.jpg, you would need to upload the objct and choose a diff name for it. Having several objcts all w/ slight diffs in naming variations may cause confusion and clutter in your bucket. 
+
+  So you use S3 versioning. Versioning enables you to keep multple versions of a single objct in the same bucket. This allows you to preserve old versions of an objct w/out having to use diff naming constrcts, in case you need to recover from accdntl deletions, accdntal overwrites, or app failures. Let's see how this works:
+
+  If you enable versioning for a bucket, Amazon S3 autmtclly genrates a unique version ID for the objct being stored. In one bucket, for ex, you can have two objcts w/ the same key, but diff version IDs, such as employeephoto.gif (version 111111) and employeephoto.gif (version 121212). Versioning-enabled buckets let you recover objcts from accdntl deletion or overwrite. 
+
+    *Deleting an objct does not remove teh objct permnntly. Instead, Amazon S3 puts a marker on the object that shows you tried to delet it.If you want to restore the objct, you can remove this marker and it reinstates the objct. 
+
+    *If you overwrite an objct, it reslts in a new objct version in the bucket. You still have access to ppprevious versions of the objct. 
+
+Understand versioning States- 
+
+  *Unversioned (the default): No new or existing objcts in the bucket have a version
+
+  *Versioning-enabled: This enables versioning for all objcts in the bucket. 
+
+  *Versioning-suspended: This suspends versioning for new objcts. All new objcts in the buckt will not have a version. However, all existing objcts keep their objct versions.
+
+The versioning state applies to all of the objcts in that bucket. Keep in mind that storage costs are incurred for all objcts in your bucket and all versions of those objects. To reduce your S3 bill, you may want to delet previous version of your objcts that are no longer in use. 
+
+What are Amazon S3 Storage Classes?
+
+When you upload an objct to Amazon S3 and you don't specify the strage class, you're uploading it to the dflt strge class- often refrred to as stndrd strage. When you learned about Amazon S3 in previous units, you were learning about the standard storage class w/out even knowing it. S3 storage classes let ou change your storage tier as your data chrctrstcs change. For ex, if you are now accssing your old photos infrquntly, you may want to change the strge class those phots are stored in to save on costs. There are six S3 strage classes.
+
+  1. Amazon S3 Standard: This is considered general purpose strage for cloud apps, dynamic websites, content distrbtion, mobile and gaming apps, and big data analytics
+
+  2. Amazon S3 Intelligent-Tiering: This tier is useful if your data has unkown or changing access patterns. S3 Intelligent-tiering stores objcts in two tiers, a frequent access tier and an infrquent access tier. Amazon S3 monitors access patterns of your data, and automatically moves your data to the most cost-effective storage tier based on frequncy of access.
+
+  3. Amazon S3 Standard-Infrequent Access (S3 Standard-IA): S3 Standard-IA is for data that is accessed less frequently, but requires rapid access when needed. S3 Standard-IA offers the high durability, high throughput, adn low latency of S3 Standard, with a low per-GB storge prce and per GB retrval fee. This storge tier is ideal if you want to store long-term backups, disaster recovery files, and so on. 
+
+  4. Amazon S3 One Zone-Infrequent Access (S3 One Zone-IA): Unlike other S3 storage classes which store data in a minimum of three AZs, S3 One Zone-IA stores data in a single AZ and costs 20% less than S3 Standard-IA. S3 One Zone-IA is ideal for custmers who want a lower-cost option for infrqntly accssed data but do not require the availability and resilience of S3 Standard or S3 Standard-IA. A good choice for storing secondary backup copies on on-prem data or easily re-creatable data. 
+
+  5. Amazon S3 Glacier Instant Retrieval: Amazon S3 Glacier Instant Retrieval is an archive strage class that delivers the lowest-cost strage for long-lived data that is rarely accssed and requres retrval in milliseconds.
+
+  6. Amazon S3 Glacier Flexible Retrieval: S3 Glacier Flexible Retrieval delivers low-cost strage up to 10% lower cost (than S3 Glacier Instant Retrieval), for archive data that is accessed 1-2 times per year and is retrieved asynchronously.
+
+  7. Amazon S3 Glacier Deep Archive: S3 Glacier Deep Archive is Amazon S3's lowest-cost storage class and supports long-term retention and digital preservation for data that may be accessed once or twice in a year. Designed for customers- particularly those in highly regulated industries, such as Financial Services, Healthcare, and Public Sectors- that retain data sets for 7 to 10 years or longer to meet regulatory compliance requrments. 
+
+  8. Amazon S3 Outposts: Amazon S3 on Outposts delivers objct storage to your on-prem AWS Outposts environment.
+
+Automate Tier Transitions With Object Lifecycle Management
+
+If you keep manually changing your objcts, such as your employee photos, from storage tier to storage tier, you may want to look into autmating this prcess using a lifecycle polcy. When you define a lifecycle polcy configrtion for an objce or group of objcts, you can choose to automate two actions: transition and expiration actions. 
+
+  *Transition actions are used to defne when you should transition your objcts to another strage class
+
+  *Expiration actions define when objcts expire and should be permnntly deleted
+
+For ex, you might choose to transtion objcts to S3 Standard-IA strage class 30 days after you created them, or archive objcts to the S3 Glacier Strge class one year after creating them. 
+
+The fllwing use cases are good candidates for lifecycle mgmt. 
+
+  *Periodic logs: If you upload periodic logs to a bucket, your app might need them for a week or a mont. After you might want to delete them.
+
+  *Data that changes in access freqncy: some docs are frquntly accssed for a limited period of time. After that, they are infrquntly accssed. At some point, you might not need real-time access to them, but your org or regltions might requre you to archve them for a spcfic period. After that you can delete them. 
+
 
 
