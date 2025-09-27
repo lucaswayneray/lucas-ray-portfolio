@@ -1312,4 +1312,3 @@ The fllwing use cases are good candidates for lifecycle mgmt.
   *Data that changes in access freqncy: some docs are frquntly accssed for a limited period of time. After that, they are infrquntly accssed. At some point, you might not need real-time access to them, but your org or regltions might requre you to archve them for a spcfic period. After that you can delete them. 
 
 
-
