@@ -1311,4 +1311,91 @@ The fllwing use cases are good candidates for lifecycle mgmt.
 
   *Data that changes in access freqncy: some docs are frquntly accssed for a limited period of time. After that, they are infrquntly accssed. At some point, you might not need real-time access to them, but your org or regltions might requre you to archve them for a spcfic period. After that you can delete them. 
 
+##### Choose the Right Storage Service
+
+Amazon EC2 Instance Store- Instance store is ephemeral block storage. Preconfig'd storage that exists on the same physical server that hosts the EC2 instance and cannot be detached from Amazon EC2. can think of it as a built-in drive for your EC2 instnce. Instnce store is genrlly well-suited for temp strage of info that is constntly changng, such as bufers, caches, and scratch data. Not meant for data that is persistnt or long-lasting. If you need persistent long-term block strage that can be detached from Amazon EC2 and prvide you mor mgmt slxblty, such as incrsing volume size or creating snapshots, then you should use Amazon EBS. 
+
+Amazon EBS- meant for data that chnges frquntly and needs to persist through instnce stops, terminations, or hardware failures. Amazon EBS has two dif types of volumes: SSD-backed volumes and HDD-backed volumes. SSD-backed volumes have the following charctrstcs
+  *Perfrmnce depnds on IOPS (input/output operations per second)
+
+  *Ideal for transactional wrkloads such as databases and boot volumes.
+
+HDD-backed volumes have the fllwing chrctrstics:
+
+  *Prfrmnce dpnds on MB/s
+
+  *Ideal for throughput-intensive workloads, such as big data, data warehouses, log prcessing, and sequntial data I/O
+
+A few important features of Amazon EBS that you need to know when comparing it to other srvcs:
+
+  *It is block strage
+
+  *You pay for what you provision (have to provision storage in advance).
+
+  *EBS volumes are replcated across multple srvrs in a single AAAAZ.
+
+  *Most EBS volumes can only be attached to a single EC2 instance ata time
+
+  Amazon S3- If data doesn't change that often, Amazon S3 might be more cost-effctive and scalble sorage solution. S3 is ideal for storing static web content and media, backups and archiving, data for analytics, and can even be used to host entire static websites w/ custom domain names. A few imprtnt features of Amazon S3 to know about when comparing it to other services.
+
+    *It is Object Storage
+
+    *Pay for what you use (don't have to provision storage in advance)
+
+    *Amazon S3 replcates your objcts acrss multple AZs in a Region. 
+
+    *Amazon S3 is not storage attached to compute
+
+  
+Amazon Elastic File System (Amazon EFS) and Amazon FSx
+
+S3 uses a flat namespace and isn't meant to serve as a standalone file system. 
+
+Most EBS volumes can only be attchd to one EC2 instnce at a time. 
+
+If you need file strage on AWS, whch srvc should you use? For file strage that can mount on to multple EC2 instnces, you can use Amazon Elstic File System (AMazon EFS) or Amazon FSx. Following table prvides more info on each srvce.
+
+Service: Amazon Elastic File System (EFS)
+Charctrstic- Fully managed NFS file system.
+More info- https://aws.amazon.com/efs/faq/
+
+Service: Amazon FSx for Windows File Srver
+Charctrstic- Fully Managed file servr built on Windows Servr that spprts the SMB protocol
+More info- https://aws.amazon.com/fsx/windows/faqs/?nc=sn&loc=8
+
+Service: Amazon FSx for Lustre
+Charctrstic- Fully managed Lustre File system that integrates with S3
+More info- https://aws.amazon.com/fsx/lustre/faqs/?nc=sn&loc=5
+
+A few imprtant features of Amazon EFS and FSx to know about when compring to other srvcs
+
+  *It is file storage
+
+  *You pay for waht you use (don't have to provision strage in advnce)
+
+  *Amazon EFS and Amazon FSx can be mounted onto multple EC2 instnces
+
+
+Resources:
+
+External Site:
+ AWS: Storage- https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/Storage.html
+
+External Site:
+ AWS: Cloud Storage on AWS- https://aws.amazon.com/products/storage/
+
+External Site: 
+Amazon EFS How it works
+ 
+
+External Site: 
+Amazon FSx for Windows File Server
+ 
+
+External Site: 
+Amazon FSx for Lustre
+
+
+ 
+
 
