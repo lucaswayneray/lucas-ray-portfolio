@@ -1311,7 +1311,7 @@ The fllwing use cases are good candidates for lifecycle mgmt.
 
   *Data that changes in access freqncy: some docs are frquntly accssed for a limited period of time. After that, they are infrquntly accssed. At some point, you might not need real-time access to them, but your org or regltions might requre you to archve them for a spcfic period. After that you can delete them. 
 
-##### Choose the Right Storage Service
+# Choose the Right Storage Service
 
 Amazon EC2 Instance Store- Instance store is ephemeral block storage. Preconfig'd storage that exists on the same physical server that hosts the EC2 instance and cannot be detached from Amazon EC2. can think of it as a built-in drive for your EC2 instnce. Instnce store is genrlly well-suited for temp strage of info that is constntly changng, such as bufers, caches, and scratch data. Not meant for data that is persistnt or long-lasting. If you need persistent long-term block strage that can be detached from Amazon EC2 and prvide you mor mgmt slxblty, such as incrsing volume size or creating snapshots, then you should use Amazon EBS. 
 
