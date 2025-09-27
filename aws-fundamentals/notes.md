@@ -1158,7 +1158,7 @@ Colder data requring fewer scans per day
   Max Throughput/Volume
 250 MB/s
 
-Two main catgries of Amazon EBS volumes: solie-state drives (SSDs) and hard-disk drives (HDDs). SSDs provide strong perfrmnce for random input/output (I/O), while HDDs prvde strng perfmnce for sequntial I/O. AWS offers two types of each. Above table will help decide which is best for your workload. 
+Two main catgries of Amazon EBS volumes: solid-state drives (SSDs) and hard-disk drives (HDDs). SSDs provide strong perfrmnce for random input/output (I/O), while HDDs prvde strng perfmnce for sequntial I/O. AWS offers two types of each. Above table will help decide which is best for your workload. 
 
 Benefits of Using Amazon EBS-
   *High avlblty: when you create an EBS volume, it is autmtclly replcted w/ in its AZ to prvnt ata loss from single points of failure
@@ -1313,7 +1313,7 @@ The fllwing use cases are good candidates for lifecycle mgmt.
 
 # Choose the Right Storage Service
 
-Amazon EC2 Instance Store- Instance store is ephemeral block storage. Preconfig'd storage that exists on the same physical server that hosts the EC2 instance and cannot be detached from Amazon EC2. can think of it as a built-in drive for your EC2 instnce. Instnce store is genrlly well-suited for temp strage of info that is constntly changng, such as bufers, caches, and scratch data. Not meant for data that is persistnt or long-lasting. If you need persistent long-term block strage that can be detached from Amazon EC2 and prvide you mor mgmt slxblty, such as incrsing volume size or creating snapshots, then you should use Amazon EBS. 
+Amazon EC2 Instance Store- Instance store is ephemeral block storage. Preconfig'd storage that exists on the same physical server that hosts the EC2 instance and cannot be detached from Amazon EC2. can think of it as a built-in drive for your EC2 instnce. Instnce store is genrlly well-suited for temp strage of info that is constntly changng, such as bufers, caches, and scratch data. Not meant for data that is persistnt or long-lasting. If you need persistent long-term block strage that can be detached from Amazon EC2 and prvide you mor mgmt scalablty, such as incrsing volume size or creating snapshots, then you should use Amazon EBS. 
 
 Amazon EBS- meant for data that chnges frquntly and needs to persist through instnce stops, terminations, or hardware failures. Amazon EBS has two dif types of volumes: SSD-backed volumes and HDD-backed volumes. SSD-backed volumes have the following charctrstcs
   *Perfrmnce depnds on IOPS (input/output operations per second)
@@ -1332,9 +1332,9 @@ A few important features of Amazon EBS that you need to know when comparing it t
 
   *You pay for what you provision (have to provision storage in advance).
 
-  *EBS volumes are replcated across multple srvrs in a single AAAAZ.
+  *EBS volumes are replcated across multple srvrs in a single AZ.
 
-  *Most EBS volumes can only be attached to a single EC2 instance ata time
+  *Most EBS volumes can only be attached to a single EC2 instance at a time
 
   Amazon S3- If data doesn't change that often, Amazon S3 might be more cost-effctive and scalble sorage solution. S3 is ideal for storing static web content and media, backups and archiving, data for analytics, and can even be used to host entire static websites w/ custom domain names. A few imprtnt features of Amazon S3 to know about when comparing it to other services.
 
@@ -1394,6 +1394,80 @@ Amazon FSx for Windows File Server
 
 External Site: 
 Amazon FSx for Lustre
+
+
+### Explore Databases on AWS
+
+The History behind Enterprise Databases- Used to be strghtfrwrd, Only a few vendors and chose one for all apps.
+
+Often would slct database before knowledge of use case. Since 1970's most common was relational database
+
+What is Relational Database?- Orgnzes data into tables. Data in one table can be linked to data in other tables to create reltionships- hence, the reltnal part of the name
+
+A table sotres data in rows and columns. A row often called a record, contains all info about a spcfic entry. Columns descrbe attrbtes of that entry. 
+
+The tables, rows, columns, and reltionshps bt them is refrred to as logical schema. With relational databases a schema is fixed. Once the database is oprtnal, becomes diffclt to chnge the schema. This reqres most of the data modeling to be done upfront before the database is active
+
+WHAT is a Relational Database Mgmt System? (RDBMS)- lets you create, update, and adminster a reltional database. Some ex's:
+  *MySQL
+  *PostgresQL
+  *Oracle
+  *SQL server
+  *Amazon Aurora
+
+You communcate w/ most RDBMS by using Structured Query Language (SQL) queries. Here's an ex: SELECT*FROM table_name
+
+This query slcts all the data from a partclr table. But the real power of SQL quries is in creating more complex queris that let you pull data from severl tables to piece togther pattrns and answers to busnss prblms. For ex: querying the sales table and the book table togther to see sales in reltion to an author's books. This is made possble by a join, Which we talk about next. 
+
+THe Benefits of Using a Relational Database-
+  *Joins: can join tables, allwng to bettr undrstnd reltnshps bt your data
+  *Reduced Redundncy: can store data in one table and refrnce it from other tables instead of savng the same data in diff places
+  *Familiarity: Reltional datbases have been a poplr choice since 70's. Due to this poplrity, technical pros oftne have famlrity and exprience w/ this type of database
+  *Accuracy: Reltnal datbases ensure that your data is persisted w/ high integrty and adheres to the ACID (atomicity, consistency, isolation, durability) principle.
+
+USE CASES FOR RELATIONAL DATABASES-Much of the world runs on reltional databases. In fact, at the core of many mission-critical apps, some of which you may use in your day to day life. Some common use cases for relatnal databases. Aps that have a solid schema that doesn't change often, i.e.
+  *Lift and shift apps that lifts an app from on-prem and shifts to the cloud w/ littl or no mods
+
+Applications that need persistnt strage that fllws the ACID principle, such as:
+  *Entrprise Rsrc Plnning (ERP) apps
+  *Customer Reltionship MGMT (CRM) apps
+  *Commerce and financial apps
+
+CHOOSE BT UNMANAGED and MANAGED DATABASES-
+
+If you want to run a reltional database on AWS, first need to slct how you want to run it: the unmanaged or managed way
+
+Paradigm of managed versus unmanaged services is similar to the Shared Responsibility Model. The Shared Responsibility MOdel distngshes bt AWS's and the customer's scrty respnsbility over a service. Similrly, managed versus unmanaged can be understood as a trade off bt convnience and control.
+
+ON-PREM DATABASE- Let's say uo oprte a reltnal database on-prem (in your own data center.) In this scenario, you are respnsble for all aspcts of oprtion inclding the scrty and elctrcty of the data center, the magmt of the host machine, the mgmt of the dtbase on that host, as well as optmzing quries and managing customer data. You are respnsble for absltely evrthing, which means you have ctrl over absltely evrthing.
+
+Includes-App optmzation, scaling, high avlblty, dtbase backups, DB s/w patches, DB s/w installs, OS patches, OS instlltions, server maintnce, Rack & stack, Power, HVAC, net.
+
+Where with AWS hosting they take care of OS instlltion, Server maintnce, Rack and stack, Power, HVAC, net
+
+Now say you want to shift some of this to AWS by running your reltnal datbase on Amazon EC2. If you host a database on Amazon EC2, AWS takes care of implmntingand maintning the physcal infrstrcture and hardware and instlling the OS of the EC2 instnce. But you're still respnsble for managng the EC2 instnce, managng the database on that host, optmzing queries, and managng customer data. 
+
+This is refrred to as unmanaged database option on AWS. AWS is repsnble for and has ctrl over the hardwre and undrlying infrstrctre and you are respnsble and have ctrl over mgmt of the host and database.
+
+MANAGED DATABASE- 
+
+You- App optmzation. 
+
+AWS- Scaling, High Avalblty, Database backups, DB s/w patches, DB s/w installs, OS patches, OS instlltion, Server maintnance, Rack and stack, Power, HVAC, net.
+
+If you want to shift even more work to AWS use Managed Database service. Sets up both the EC2 instance and the database, and they provide systms for high avalblty, sclblty, patchng, and backups. However you're still respnsble for database tuning, query optmztion, and ensring data is secre. PRvides you ultmate convnience, but you ahve the least amnt of ctrl
+
+Resources:
+
+External Site:
+ AWS: What Is a Relational Database?
+
+External Site:
+ AWS: Databases on AWS 
+
+
+
+
 
 
  
