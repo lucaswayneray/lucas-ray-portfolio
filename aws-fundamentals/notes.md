@@ -1465,6 +1465,77 @@ External Site:
 External Site:
  AWS: Databases on AWS 
 
+WHAT is AMAZON RDS?- Enables you to ceate and manage reltional datbases in the cloud w/out the oprtional burdn of tradtnal database mangmnt. For ex: if you sell healthcare equipmnt and your goal is to be the number-one seller in the Pacific NW, building out a dataabase doesn't drctly help you achve that goal though having a database is necssry to achve the goal. Amazon RDS helps you offload some of thiiiis unrlted work of creating and managng a database. you can focus on the tasks that diffrntiate your app, instead of infrstrcture-related tasks such as prvsioning, patchng, scling, and restoring. Amazon RDS spprts most of the popular reltional database mgmt systms, rangng from commrcl optns, open src options, and even an AWS-spcific option. Supported Amazon RDS engines are
+  *Commercial: Oracle, SQL Server
+  *Open Source: MySQL, PostgreSQL, MariaDB
+  *Cloud Native: Amazon Aurora
+
+NOTE:Cloud natve, option, Amazon Aurora is a MySQL and PostgreSQL-compatible database built for the cloud. It is more durable, more available, and prvdes faster prfrmnce than the Amazon RDS version of MySQL and PostgreSQL. See also: Amazon Aurora FAQs
+
+Understand DB Instances- Just like the databases you wold build and manage yourself, Amazon RDS is built off of compute and strage. The compute portion is called the DB (database) instance, which runs the database engine. Depnding on the engine of the DB instance you choose, the engine will have diffrent supprted featres and congigrtions. A DB instance can contain multple databases w/ the same engine and each database can contain multple tables. Under the DB instnce is an EC2 instnce. However this instnce is managed through the Amazon RDS console instead of the Amazon EC2 console. When you create your DB instnce you choose the instnce type and size. Amazon RDS supprts three instance families. 
+
+  *Standard, general purpose instnces
+  *Memory Optimized, optimized for memory-intensive apps
+  *Burstable Performance, prvides a baseline prfrmnce level, with the ablity to burst to full CPU usage.
+
+The DB instnce you choose affcts how much prcssing powr and memory it has. Not all of the options are avalble to you, depnding on the engine that you choose. You can find more info in rsrcs at end of this reading. Much like a reglar EC2 instnce, the DB instnce uses Amazon Elastic Block Store (EBS) volumes as its strage layer. Can choose bt three types of EBS volume storage. 
+  *General purpose (SSD)
+  *Provisioned IOPS (SSD)
+  *Magnetic storage (not reccmmnded)
+
+WORK WITH AMAZON RDS in an AMAZON VIRTUAL PRIVATE CLOUD
+
+When you create a DB instnce, you slect the Amazon Virtual Private Cloud (VPC) that your databaseswill live in. Then you select the subnets that you wnt the DB instnces to be placed in. Refrred to as a DB subnet group. To create a DB subnet group you specify:
+  *The AZs that include the subnets you want to add
+  *The subnets in that AZ where your DB instance are placed
+
+The subnets you add should be private so they don't hvae a route to the internet gateway. Ensres your DB instance, and the cat data inside of it, can only be reached by the app backend. Accss to the DB instnce can be further restrcted by using ntwrk accss control lists (ACLs) and secrity groups. With these firewall, you can control, at a granular level, what type of trffic you want to allow into your database. Using these ctrls prvde layers of secrity for your infrstrctre. It reinfrces that only the backend instnces have access to the database.
+
+Use AWS IDentity and Access Management (IAM) Policies to secure Amazon RDS- Netwrk aCLs and secrity groups allow you to dictate the flow of trffic. If you want to restrct what actions and resrcs your emplyees can access, you can use IAM policies.
+
+Back up your DATA-To take regular backups of your RDS instnce, you can use:
+  *Automatic backups
+  *Manual snapshots
+
+Automatic Backups- Turned on by default. Backs up your entire DB instnce (not just indvdual databases onthe instnce), and your transaction logs. When you create your DB insntc you set a backup window that is the period of time that automatic backups occur. Typclly you want to set these windows dring a time when your database expriences little actvity bc it can cause incresed latncy and dwntime.
+
+Can retain your autmated backups bt 0 and 35 days. might ask yourself "Why set up automated backups for 0 days?" the 0 days settng actlly disable autmatic backups from happneing. Keep in mind that if you set it to 0, will also delete all existing autmted backups. Not ideal, as the benefit of having autmated backups is having the ablty to do point-in-time recovery.
+
+If you restre data from an autmated backup, you have the ablity to do point-in-time recovery. Point-in-time recovery creates a new DB instance using data restred from a specfic point in time. This restration method prvdes more granulrity by restring the full backup and rolling back transctions up to the spcfied time range. 
+
+Manyal Snapshots- If you want to keep your autmated backups longer than 35 days, use manual snapshots. Manual snapshots are similar to taking EBS snapshot, except you manage them in the RDS console. These are backups that you can initiate at any time, that exist until you delte them. For ex: to meet a compliance requrment that mandates you to keep database backups for a year, you would need to use manual snapshots to ensure those backups are retained for that perios of time. If you restore data from a manual snapshot it creates a new DB instnce using the data from the snapshot. 
+
+WHICH BACKUP OPTION SHOULD I USE?- almost always BOTH. Automated backups are beneficial for the point-in-time recovery. Manual snapshots allow you to retain backups for longer than 35 days.
+
+Get Redundancy with Amazon RDS Multi-AZ- When you enable Amazon RDS Multi-AZ, Amazon RDS creates a redndnt copy of your datbase in another AZ. You end up w/ two copies of your datbase: a primry copy in a subnet in one AZ and a stndby copy in a subnet in a second AZ.
+
+The primary copy of your database prvdes accss to your data so that apps can query and display that info. 
+The data in the primary copy is synchronously replicated to the standby copy. The standby copy is not considered an active database and does not get queried by apps.
+To improve avalblty, Amazon RDS Multi-AZ ensures that you have two copies of your database running and that one of them is in the primary role. If there's and availability issue, such as the primary DB losing connctivity, Amazon RDS trggers an automatic failover.
+
+When you create a DB instance, a domain name system (DNS) name is prvided. AWS uses that DNS name to failover to the standby database. In an automatic failover, the standby databaseis prmoted to the primary role and queries are redirected to the new primary database. 
+
+To ensure that you don't lose Multi-AZ configration, a new standby database is created by either 
+  *Demoting the previous pirmary to standby if it's still up and running
+  *Or standing up a new standby DB instance
+
+The reason you can selct multple subnets for an Amazon RDS database is bc of the Multi-AZ configrtion. You'll want to ensure that you have used subnets in diff AZs for your primary and standby copies.
+
+Resources:
+
+External Site:
+ AWS: Working With Backups
+
+External Site:
+ AWS: Amazon RDS Backup and Restore
+
+External Site:
+ AWS: Creating and Using an IAM Policy for IAM Database Access
+
+External Site:
+ AWS: Amazon Virtual Private Cloud VPCs and Amazon RDS
+
+
 
 
 
