@@ -1535,7 +1535,84 @@ External Site:
 External Site:
  AWS: Amazon Virtual Private Cloud VPCs and Amazon RDS
 
+INTRO TO DYNAMODB- What is Amazon DynamoDB- fully managed NoSQL databse srvc that prvdes fast adn prdctble prfrmnce w seamless sclblty. DynamoDB lets you offload the adminstrtve burdens of operating and scling a distrbted database so you don't have to worry about hardwre prvsning, setup and configrttion, replicacion, software patching, or cluster scaling.
 
+With DynamoDB you can create database tables that can store and retrieve any amount of data and serve any level of request trffic. Can scale up or scle down your tables' throughput capcity w/out downtime or perfrmnce degrdtion. Can use the AWS Management Console to monitor rsrc utlztion and prfrmnce metrics.
+DynamoDB autmtclly spreads the data and trffic for your tables over a suffcient number of srvers to hanle your throughput and strage requrmnts, while maintning consistnt and fast prfrmnce. All your data is stored on solid-state disks (SSDs) and is autmtclly replcted acrss multple AZs in AWS Region, prvding built-in high avlblty and data drblty
+
+Core Domponents of Amazon DynamoDB- In DynamoDB, tables, items and attrbutes are the core compnnts that you wrk with. A table is a cllction of items and each item is a cllction of attrbutes. DynamoDB uses prmary keys to uniquely ID each item in a table and secondary indxes to prvde more querying flxblity
+
+Basic DynamoDB components:
+  *Tables- Simllar to other databse systms, DynamoDB stres data in tables. A table is a cllction of data. For ex: see the ex table called People that you could use to sotre persnal contct info about friends, family, or anyone else of intrest. Could also have a Cars table to store info about vehicles that people drive
+
+  *Items- Ecah table contains zero or more items, An item is a group of attrbutes that is unquely idntfble among all other itms. I a People table, each item reps a person. For a Cars table, each item reps one vehcle. Items in DynamoDB are simlar in many ways to rows, records, or tuples in other database systms. In DynamoDB, there is no limit to the num of items you can store in a table.
+
+  *Attributes-Each item is compsed of one or more attrbutes. An attrbute is a fundmntal data elment, somthing that does not need to be broken down any further. For ex. an item in a Peoplle table contains attrbtes called PersonID, LastName, FirstName, and so on. For a Department table, an item might have attrbutes such as DepartmentID, Name, Manager, and so on. Attributes in DynamoDB are similar in many ways to fields or columns in other database systems
+
+  Security with Amazon DynamoDB- also offers encrption at rest, which elimntes the oprtional butden and complxity involved in prtcting senstive data. See "DynamoDB Encryption at Rest
+
+  External Resource: Introduction to Amazon DynamoDB
+
+Choose the Right AWS Database Service- AWS Database Services
+AWS has a variety of diff database options for diff use cases. Use the table below to get a quick look at the AWS database portfolio.
+
+1. Database Type: Relational
+
+Use Cases: Traditional applications, ERP, CRM, e-commerce
+
+AWS Service: Amazon RDS, Amazon Aurora, Amazon Redshift
+
+2. Database Type: Key-value
+
+Use Cases: High-traffic, web apps, e-commerce systems, gaming apps
+
+AWS Service: Amazon DynamoDB
+
+3. Database Type: In-memory
+
+Use Cases: Caching, session mangmt, gaming leaderboards, geospatial apps
+
+AWS Service: Amazon ElastiCache for Memcached, Amazon ElastiCache for Redis
+
+4. Database type: Document
+
+Use Cases: Content mgmt, catalogs, user prfiles
+
+AWS Service: Amazon DocumentDB (with MongoDB compatblty)
+
+5. Database type: Wide Column
+
+Use Cases: High-scale industrial apps for equipmnt maintnce, fleet mgmt, and route optmztion
+
+AWS Service: Amazon Keyspaces (for Apache Cassandra)
+
+6. Database Type: Graph
+
+Use Cases: Fraud detection, social netwrking, recommndation engines
+
+AWS Service: Amazon Neptune
+
+7. Database Type: Time Series
+
+Use Cases: IoT apps, DevOps, industrial telemetry
+
+AWS Service: Amazon Timestream
+
+8. Database Type: Ledger
+
+Use Cases: Systems of record, supply chain, registrtions, banking transactions
+
+AWS Service: Amazon QLDB
+
+Breaking up Applications and Databases- As the industry changes, apps and databases change too. Today, with larger apps you no longer see just one database spprting it. Instead, these apps are being broken into smaller servces, each w/ their own purpose-built database spprting it. 
+
+This shift frmoves the idea of a one-size-fits-all database and replces it w/ a complmntry database strtgy. You can give each database the apprpriate fnctnality, prfrmnce, and scale that the workload requres.
+
+Resources: https://aws.amazon.com/products/databases/
+
+https://aws.amazon.com/blogs/database/?nc=sn&loc=4
+
+https://aws.amazon.com/solutions/
 
 
 
