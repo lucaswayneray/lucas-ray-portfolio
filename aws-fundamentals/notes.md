@@ -1425,7 +1425,7 @@ THe Benefits of Using a Relational Database-
   *Familiarity: Reltional datbases have been a poplr choice since 70's. Due to this poplrity, technical pros oftne have famlrity and exprience w/ this type of database
   *Accuracy: Reltnal datbases ensure that your data is persisted w/ high integrty and adheres to the ACID (atomicity, consistency, isolation, durability) principle.
 
-USE CASES FOR RELATIONAL DATABASES-Much of the world runs on reltional databases. In fact, at the core of many mission-critical apps, some of which you may use in your day to day life. Some common use cases for relatnal databases. Aps that have a solid schema that doesn't change often, i.e.
+USE CASES FOR RELATIONAL DATABASES-Much of the world runs on reltional databases. In fact, at the core of many mission-critical apps, some of which you may use in your day to day life. Some common use cases for relatnal databases. Apps that have a solid schema that doesn't change often, i.e.
   *Lift and shift apps that lifts an app from on-prem and shifts to the cloud w/ littl or no mods
 
 Applications that need persistnt strage that fllws the ACID principle, such as:
@@ -1465,7 +1465,8 @@ External Site:
 External Site:
  AWS: Databases on AWS 
 
-WHAT is AMAZON RDS?- Enables you to ceate and manage reltional datbases in the cloud w/out the oprtional burdn of tradtnal database mangmnt. For ex: if you sell healthcare equipmnt and your goal is to be the number-one seller in the Pacific NW, building out a dataabase doesn't drctly help you achve that goal though having a database is necssry to achve the goal. Amazon RDS helps you offload some of thiiiis unrlted work of creating and managng a database. you can focus on the tasks that diffrntiate your app, instead of infrstrcture-related tasks such as prvsioning, patchng, scling, and restoring. Amazon RDS spprts most of the popular reltional database mgmt systms, rangng from commrcl optns, open src options, and even an AWS-spcific option. Supported Amazon RDS engines are
+### WHAT is AMAZON RDS?- 
+Enables you to ceate and manage reltional datbases in the cloud w/out the oprtional burdn of tradtnal database mangmnt. For ex: if you sell healthcare equipmnt and your goal is to be the number-one seller in the Pacific NW, building out a dataabase doesn't drctly help you achve that goal though having a database is necssry to achve the goal. Amazon RDS helps you offload some of this unrlted work of creating and managng a database. you can focus on the tasks that diffrntiate your app, instead of infrstrcture-related tasks such as prvsioning, patchng, scling, and restoring. Amazon RDS spprts most of the popular reltional database mgmt systms, rangng from commrcl optns, open src options, and even an AWS-spcific option. Supported Amazon RDS engines are
   *Commercial: Oracle, SQL Server
   *Open Source: MySQL, PostgreSQL, MariaDB
   *Cloud Native: Amazon Aurora
@@ -1491,9 +1492,10 @@ When you create a DB instnce, you slect the Amazon Virtual Private Cloud (VPC) t
 
 The subnets you add should be private so they don't hvae a route to the internet gateway. Ensres your DB instance, and the cat data inside of it, can only be reached by the app backend. Accss to the DB instnce can be further restrcted by using ntwrk accss control lists (ACLs) and secrity groups. With these firewall, you can control, at a granular level, what type of trffic you want to allow into your database. Using these ctrls prvde layers of secrity for your infrstrctre. It reinfrces that only the backend instnces have access to the database.
 
-Use AWS IDentity and Access Management (IAM) Policies to secure Amazon RDS- Netwrk aCLs and secrity groups allow you to dictate the flow of trffic. If you want to restrct what actions and resrcs your emplyees can access, you can use IAM policies.
+Use AWS Identity and Access Management (IAM) Policies to secure Amazon RDS- Netwrk aCLs and secrity groups allow you to dictate the flow of trffic. If you want to restrct what actions and resrcs your emplyees can access, you can use IAM policies.
 
-Back up your DATA-To take regular backups of your RDS instnce, you can use:
+## Back up your DATA-
+To take regular backups of your RDS instnce, you can use:
   *Automatic backups
   *Manual snapshots
 
@@ -1503,7 +1505,7 @@ Can retain your autmated backups bt 0 and 35 days. might ask yourself "Why set u
 
 If you restre data from an autmated backup, you have the ablity to do point-in-time recovery. Point-in-time recovery creates a new DB instance using data restred from a specfic point in time. This restration method prvdes more granulrity by restring the full backup and rolling back transctions up to the spcfied time range. 
 
-Manyal Snapshots- If you want to keep your autmated backups longer than 35 days, use manual snapshots. Manual snapshots are similar to taking EBS snapshot, except you manage them in the RDS console. These are backups that you can initiate at any time, that exist until you delte them. For ex: to meet a compliance requrment that mandates you to keep database backups for a year, you would need to use manual snapshots to ensure those backups are retained for that perios of time. If you restore data from a manual snapshot it creates a new DB instnce using the data from the snapshot. 
+Manual Snapshots- If you want to keep your autmated backups longer than 35 days, use manual snapshots. Manual snapshots are similar to taking EBS snapshot, except you manage them in the RDS console. These are backups that you can initiate at any time, that exist until you delte them. For ex: to meet a compliance requrment that mandates you to keep database backups for a year, you would need to use manual snapshots to ensure those backups are retained for that perios of time. If you restore data from a manual snapshot it creates a new DB instnce using the data from the snapshot. 
 
 WHICH BACKUP OPTION SHOULD I USE?- almost always BOTH. Automated backups are beneficial for the point-in-time recovery. Manual snapshots allow you to retain backups for longer than 35 days.
 
@@ -1535,7 +1537,8 @@ External Site:
 External Site:
  AWS: Amazon Virtual Private Cloud VPCs and Amazon RDS
 
-INTRO TO DYNAMODB- What is Amazon DynamoDB- fully managed NoSQL databse srvc that prvdes fast adn prdctble prfrmnce w seamless sclblty. DynamoDB lets you offload the adminstrtve burdens of operating and scling a distrbted database so you don't have to worry about hardwre prvsning, setup and configrttion, replicacion, software patching, or cluster scaling.
+### INTRO TO DYNAMODB-
+ What is Amazon DynamoDB- fully managed NoSQL databse srvc that prvdes fast adn prdctble prfrmnce w seamless sclblty. DynamoDB lets you offload the adminstrtve burdens of operating and scling a distrbted database so you don't have to worry about hardwre prvsning, setup and configrttion, replicacion, software patching, or cluster scaling.
 
 With DynamoDB you can create database tables that can store and retrieve any amount of data and serve any level of request trffic. Can scale up or scle down your tables' throughput capcity w/out downtime or perfrmnce degrdtion. Can use the AWS Management Console to monitor rsrc utlztion and prfrmnce metrics.
 DynamoDB autmtclly spreads the data and trffic for your tables over a suffcient number of srvers to hanle your throughput and strage requrmnts, while maintning consistnt and fast prfrmnce. All your data is stored on solid-state disks (SSDs) and is autmtclly replcted acrss multple AZs in AWS Region, prvding built-in high avlblty and data drblty
@@ -1545,11 +1548,11 @@ Core Domponents of Amazon DynamoDB- In DynamoDB, tables, items and attrbutes are
 Basic DynamoDB components:
   *Tables- Simllar to other databse systms, DynamoDB stres data in tables. A table is a cllction of data. For ex: see the ex table called People that you could use to sotre persnal contct info about friends, family, or anyone else of intrest. Could also have a Cars table to store info about vehicles that people drive
 
-  *Items- Ecah table contains zero or more items, An item is a group of attrbutes that is unquely idntfble among all other itms. I a People table, each item reps a person. For a Cars table, each item reps one vehcle. Items in DynamoDB are simlar in many ways to rows, records, or tuples in other database systms. In DynamoDB, there is no limit to the num of items you can store in a table.
+  *Items- Each table contains zero or more items, An item is a group of attrbutes that is unquely idntfble among all other itms. I a People table, each item reps a person. For a Cars table, each item reps one vehcle. Items in DynamoDB are simlar in many ways to rows, records, or tuples in other database systms. In DynamoDB, there is no limit to the num of items you can store in a table.
 
-  *Attributes-Each item is compsed of one or more attrbutes. An attrbute is a fundmntal data elment, somthing that does not need to be broken down any further. For ex. an item in a Peoplle table contains attrbtes called PersonID, LastName, FirstName, and so on. For a Department table, an item might have attrbutes such as DepartmentID, Name, Manager, and so on. Attributes in DynamoDB are similar in many ways to fields or columns in other database systems
+  *Attributes-Each item is compsed of one or more attrbutes. An attrbute is a fundmntal data elment, somthing that does not need to be broken down any further. For ex. an item in a People table contains attrbtes called PersonID, LastName, FirstName, and so on. For a Department table, an item might have attrbutes such as DepartmentID, Name, Manager, and so on. Attributes in DynamoDB are similar in many ways to fields or columns in other database systems
 
-  Security with Amazon DynamoDB- also offers encrption at rest, which elimntes the oprtional butden and complxity involved in prtcting senstive data. See "DynamoDB Encryption at Rest
+  Security with Amazon DynamoDB- also offers encrption at rest, which elimntes the oprtional butden and complxity involved in prtcting senstive data. See "DynamoDB Encryption at Rest"
 
   External Resource: Introduction to Amazon DynamoDB
 
@@ -1615,9 +1618,50 @@ https://aws.amazon.com/blogs/database/?nc=sn&loc=4
 https://aws.amazon.com/solutions/
 
 
+# Monitoring on AWS- 
+
+  *How many people are visiting my site day to day?
+  *How can I track the number of visitors over time?
+  *How will I know if the website is having prfrmnce or avlblty issues?
+  *What happens if my Amazon Elastic Compute Cloud (EC2) instance runs out of capacity?
+  *Will I be alerted if my website goes down?
+
+Need a way to cllct and anlze dataabout the oprtional health and usage of your rsrcs. The act of cllctng, anlzng, and using data to make decsions or answer questns about your IT rsrcs and systms is called montring. 
+Enables you to have a near real-time pulse on your system and answer questions above. Can use the data you cllct to watch for oprtional issues caused by evnts like over-utilztion ooooof rsrcs, applcation flaws, rsrc misconfigrtn, or secrty-related events. Think of the data cllcted through montring as outputs of the system, or metrics.
+
+Use Metrics to Solve Problems-
+The rsrcs that host your soltns on AWS all create various frms of data that you might be intrsted in cllctng. You can think of each indvdl data point that is created by a rsrc as a metric. Metrics that are cllcted and anlzed over time become stats, like the ex of average CPU utilztion over time below, showing a spike at 1:30. Consider this: one way to evalte the health of an Amazon EC2 instnce is through CPU utlztion. Genrlly spking, if an EC2 instnce has a high CPU utlztion, it can mean a flood of rqsts. Or it can rflct a prcss that has encntred an error and is consming too much of the CPU. 
+When anlzing CPY ytlztion, take a process that exceeds a spcfc threshold for an unusl length of time. Use that abnormal event as a cue to either manlly or autmtclly reslve the issue through actions like scaling th instnce. This is one ex of a metric. Other ex's of metrics EC2 instnces have are netwrk utlztion, disk prfrmnce, memry utlztion, and the logs created by the apps rnning on top of EC2. 
+
+Know the Different Types of Metrics-Diffrnt rsrcs in AWS create diffrnt types of metrcs. An Amazon Simple Storage Service (S3) bucket would not have CPU utlztion like an EC2 instnce does. Instead, S3 creates metrics reltd to the objcts stored in a bucket like the overall size, or the number of objcts in a bucket. S3 also has metrcs reltd to the rqsts made to the buckt such as reading or wrting objcts. Amazon Relation Database Servic (RDS) creates metrics such as database cnnctions, CPU utlztion of an instnce, or disk space consmption. Not a complete list but can see how diffrnt rsrcs create diff metrics. Could be intrsted in a wide varty of metrcs dpnding on the types of rsrcs you are using, the goals you have, or the types of questns you want answered.
+
+Understand the Benefits of Monitoring
+
+Monitring gives you visblty into your rsrcs, but the question now is, "Why is that imprtnt?"- Some benefits of montring...
+
+Respond to operational issues procatvely b4 your end users are aware- It's bad practice to wait for end users to let you knwo your app is exprncing an outage. Through montring, can keep tabs on metrcs like error respnse rate or rqust latency, over time, that help signal that an outage is going to occur. This enables you to autmtclly or manlly perform actions to prevnt the outage from happneing- fising the problem before your end users are aware of it. 
+
+Improve the Performance and reliability of your resrces- Montring the diff rsrcs that comprse your app prvdes you w/ a full pic of how your soltion behaves as a system. Montring, if done well, can illmnte bottlncks and ineffcient archtctres. Enable you to drive prfrmnce and relblty imprvmnt prcsses.
+
+Recognize scrty threats and events. When you monitor rsrcs, evnts, and systms over time, you create what is called a baseline. A baseline dfnes what actvty is normal. Using a baseline, you can spot anomalies like unusu trffic spikes or unusu IP addrsses accssing your rsrcs. When an anomaly occrs, an alert can be sent out or an action can be taken to insvtgte the event.
+
+Make data-driven decsions for your business. Monitring is not only to keep an eye on IT oprtnal healt. It also helps drive business decsions. For ex, say you laundched a new feature for your cat photo app, and want to know whether it's being used. Can cllect applction-level metrcs and view the number of users who use the new feature. With your findings, you decide whether to invest more time into imprving the new feature. 
+
+Create more cost-effctive soltions- Through montring, you can view rsrcs that are being underutlzed and rightsize your rsrcs to your usage This helps you optmze cost and make sur your'e not spending more money than needed. 
+
+Enable Visibility- AWS resrcs create data you can montor through metrics, logs, netwrk trffic, events, and more. This data is coming form compnnts that are distrbted in nature, which can elad to diffclty in cllcting the data you need if you don't avhae a centrlzed plce to review it all. AWS has already done that for you w/ a service called Amazon CloudWatch. 
+Amazon CloudWatch is amontring and obsrvblty srvce that cllcts data like those mentioned in this module. CloudWatch prvides actionable insghts into your apps, and enables you to respnd to system-wide prfrmnce cahnges, optmize rsrc utlztion, and get a unified view of oprtional health. This unified view is imprtnt, YOu can use CloudWatch to:
+  *Detect anomalous vehavior in your envrnmnts
+  *SEt alrms to alert you when something's not right.
+  *Visulze logs and metrcs withe the AWS Mangmnt Console
+  *Take autmted actions like scaling
+  *Troubleshoot issues.
+
+  Resource:
+
+External Site:
+ AWS: Amazon CloudWatch
 
 
-
- 
 
 
