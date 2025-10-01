@@ -1662,6 +1662,38 @@ Amazon CloudWatch is amontring and obsrvblty srvce that cllcts data like those m
 External Site:
  AWS: Amazon CloudWatch
 
+# Intro to Amazon CloudWatch- 
+How CloudWatch Works- The great thing about CloudWatch is that all you need to start is an AWS account. Is a managed servce, which enables youy to focus on montring, w/out manging any underlying infrstrcture. 
 
+The emplyee directry app is built w/ varis AWS servces wrking togther as building blocks. Would be diffclt to monitor all of these diff srvcs indpndtly, so CloudWatch acts as one centrlzed place where metrics are gathered and anlyzed. You already learned how EC2 instnces post CPU utlztion as a metric to CloudWatch. Diff AWS rsrcs post diff metrcs that you can monitor. You can view a list of srcvcs that send metrcs to CloudWatch in the rsrcs section of this unit. 
 
+Many AWS servcs send metrcs autmtclly for free to CloudWatch at a rate of one data pnt per metrc per 5-min intrvl, w/out you needing to do anything to turn on that data cllction. This by itslf gives you vsblty into your systms w/out you needing to spend any extra money to do so. This is known as basic monitoring. For many apps, basic monitring dos the job.
+For apps rnning on EC2 instnces you can get more grnlrity by posting metrcs every minute instead of every 5 minutes using a featre like detailed monitoring. Detailed monitring has an extra fee asscted. Can read about pircing on the CloudWatch Pricing Page linked in the rsrcs section of this unit. 
+
+Break Down Metrics- Each metric in CloudWatch has a timestamp and is orgnzed into containers called namespaces. Metrics in diff namespaces are islatd from each other- you can think of them as belonging to diff catgries.
+AWS servcs that send data to CloudWatch attach dimensions to each metric. A dimension is a name/value pair that is part of the metrtic's ID. Can use dimnsions to filter the reslts that CloudWatch retrns. For ex: can get stats for a spcfc EC2 instnce by spcfying the InstanceId dimension when you search.
+
+Set Up Custom Metrics- Let's say for your applction you wanted to record the number of page views your website gets. How would you record this metric to CloutWatch? It's an app-level-mettric, meaning that it's not something the EC2 instance would post to CloudWatch by default. This is where custom metrics come in. Custom metrics allows you to publish your own metrics to CloudWatch. 
+If you want to gain more granular visibility, you can use high-resolution custom metrics, which enable you to cllct custom metrics down to a 1-second resolution. This means you can send one data point per second per custom metric. Other ex's of custom metrics are:
+  * Web page load times
+  * Request error rates
+  * Number of processes or threads on your instance
+  * Amount of work prfrmed by your applction
+
+Note: Can get started w/ custom metrics by prgrmmtclly sending the metric to CloudWatch using the PutMetricData API
+
+Understand the CloudWatch Dashboards
+
+Once you've provsned your AWS rsrcs and they are sending metrcs to CloudWatch, You can then vislize and review that data using the CloudWatch console w/ dashboards. Dashboards are cutmszble home pages that you use for data vislztion for one or more metrics through the use of widges, such as a graph or text.
+
+Can build many custom dashbrds, each one focsing on a distnct view of your envrnmnt. Can even pull data from diff Regions into a single dashboard in order to create a global view of your archtctre. CloudWatch aggrgtes stats accrding to the perios of time that you spcfy when creating your graph or rqustng your metrcs. Can also choose whthr your metric widgets display live data. Live data is data published w/in the las minute that has not been fully aggregated.
+
+You're not bound to using CloudWatch exclsvely for all your visulztion needs. You can use extrnal or custom tools to ingest and analyze CloudWatch metrcs using the GetMetricData API.
+
+As far as secrty goes, you can ctrl who has accss to view or mange your CloudWatch dashboards through AWS Identity and Access Management (IAM) policies that get assciated with IAM users, IAM groups, or IAM roles.
+
+Get to know CloudWatch Logs
+
+CloudWatch can also be the centrlzed place for logs to be stred and anlzed, using CloudWatch Logs. CloudWatch Logs can monitor, store, and access your log files from apps rnning on Amazon EC2 instnces, AWs Lambda functions, and other sources
+CloudWatch Logs allows you to query and filter your log data. For ex, let's say youre looking into an app logic error for your app, and you know that when this error occurs it will log the stack trace. Since you know it logs the error, you query your logs in CloudWatch Logs to find the stack trace, You also set up metric filters on logs, which turn log data into numerical CloudWatch metrics that you graph and use on your dashboards
 
