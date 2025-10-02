@@ -1811,3 +1811,100 @@ Features of ELB- The ELB servd prvdes a major advntge over usng your own soltion
   * In terms of scalability, ELB automatically scales to meet the demand of the incoming trffic. It handles the incoming trffic and sends it to your backend app
 
   HEALTH CHECKS- Taking the timne to define an apprpriate health check is critical. Only verifying that the port of an app is open doesn't mean that the app is working. It also doesn't mean that simply making a call to the home page of an app is the right way either. For ex, the employee dirctory app depnds on a database, and S3. The health check should valdte all of those elements. One way to do that would be to create a monitoring wbpage like "/monitor" that will make a call to the database to ensure it can cnnct and get data, and make a call to S3. Then you point the healtjh check on the load balancer to the "/monitor" page.
+  After determinig the avlblty of a new EC2 instance, the load balancer starts sending traffic to it. If ELB detrmns that an EC2 insance is no longer working, it stops sending traffic to it and lets EC2 Auto Scaling know. EC2 Auto Scaling's respnsblty is to remove it from the group and replce it w/ a new EC2 instnce. Trffic only sends to the new instnce if it passes the health check
+  In case of a scale down action that EC2 Auto Scaling needs to take due to a akling polcy, it leeeets ELB know that EC2 instnces will be termnted. ELB can prvnt EC2 Auto Scaling from termnting the EC2 instnce untill al cnnctions to that instnce end, while prvnting any new cnnctions. That feature called Connection Draining.
+
+  ELB COMPONENTS- Three main compnnents
+
+  * Listeners: client cnncts to the listner. OFten refrred to as client-side. To define a listner, a port must be prvided as well as the protocol, dpnding on the load balncer type. There can be many listners for a single load balancer.
+  * Target groups: The backend srvrs, or servr-side, is dfned in one or more target groups. This is where you dfine the type of backend you want to drect trffic to, such as EC2 instnces, AWS Lambda fnctns, or IP addrsses. Also, a health check needs to be dfned for each target group.
+  * Rules: To associate a target group to a listner, a rule must be used. Rules are made up of a condition that can be the source IP address of the client and a condition to decide whch target group to send the trffic to. 
+
+APPLICATION LOAD BALANCER- Some primary features of ALB-
+
+ALB routes trffic based on requst data. makes routing dcsions based on the HTTP protcol like the URL path (/upload) and host, HTTP headers and method, as well as the source IP address of the client. Enables granlar routing to the target groups. 
+
+Send responses directly to the client. ALB has the ability to reply dirctly to the client with a fixed response like a custom HTML page. Also has the abilty to send a redrct to the client which is usefl when tyou need to redrct to a spcfic website or redrct the reqst from HTTP to HTTPS, removing that work from your backend servers.
+
+ALB spprts TLS offloading. Speacking of HTTPS and saving work from backend servrs, ALB understnds HTTPS trffic. To be able to pass HTTPS trffic through ALB, an SSL certfcte is prvded by either imprting a certfcte via IAM or AWS Certificate Manager (ACM) srvces, or by creating one for free using ACM. Ensures the trffic bt the client and ALB is encrpted. 
+
+Authenticate users- On the topic of security, ALB has the ablty to authntcate the users before they are allowed to pass through the load balancer. ALB uses the OpenID Connect protocol and intgrtes with other AWS servces to spprt more protocols like SAML, LDAP, Microsoft AD, and more. 
+
+Secure traffic- To prevent trffic from reaching the load balncer, you config a scrty group to spcfy the spprted IP address ranges.
+
+ALB uses the round-robing routing algo- ALB ensres each srver rcvs the same num of rquests in general. This type of routing works for most apps.
+
+ALB uses the least outsntding requst routing algo- If the rquests to the backend vary in complexity where one request may need a lot more CPU time than another, then the least outstndng requst algo is more apprprte. It's also the right routing algo to use if the targets vary in prcssing capblties. An outstnding requst is when a requst is sent to the backend srver and a respnse hasn't been recved yet.
+For ex: if the EC2 instnces in a target grooooouip aren't the same size, one server's CPU utlztion will be higher than the other if the same num of reqsts are sent to each server using the round-robin routing algo. That same server will have more outstndng requsts as well. Using the least outstnding request routing algo would ensure an equal usage across targets.
+
+ALB has sticky sessions. In the case where requests need to be sent to the same backend server because the app is stateful, then use the sticky session feature. This feature uses an HTTP cookie to remmber across cnnctions which server to send the trffic to. Finally, ALB is spcfclly for HTTP and HTTPS trffic. If your app uses a diff protocol, then consider the Network Load Balancer (NLB).
+
+NETWORK LOAD BALANCER- (NLB)
+
+Some primry featres of NLB. NLB spprts TCP,UDP, and TLS protocols. HTTPS uses TCP and TLS as prtocol. However, NLB oprtes at the cnnction layer, so it doesn't understand what a HTTPS requst is that means all featres discssed above that are requred to understnd the HTTP and HTTPS protocol, like routing rules based on that protocol, authntcation, and least outstnding request routing algo, not availble w/ NLB
+
+NLB uses a flow hash routing algo. The algo is based on 
+  * The protocol
+  * The source IP address and source port
+  * The destnation IP address and destnation port
+  * The TCP sequnce number
+
+IF all thes parameters are the same, then the packets are sent to the exact same target. If any of them are diff in the next packets, then the requst may be sent to a diff target.
+
+NLB has sticky sessions- Diff from ALB, these sessions are based on the source IP address of the client instead of a cookie.
+
+NLB supprts TLS offloading. NLB understnds the TLS protcol. Can also offload TLS from the backend srverss simlar to how ALB works.
+
+NLB handles millions of requsts per second. While ALB can also supprt this number of requsts, it needs to scale to reach that number. Takes time. NLB can instntly handle this amount of requsts.
+
+NLB spprts static and elastic IP addresses- Some situations where the app client needs to send requsts dirctly to the load balancer IP address instead of using DNS. For ex, this is useful if your app can't use DNS or if the cnncting clients requre firewall rules based on IP addresses. In this case, NLB is the right type of load balancer to use.
+
+NLB preserves source IP address. NLB presrve the source IP Address of the client when sending the trffic to the backend. With ALB, if you look at the srce IP address of the requsts, will find the IP addrss of the load balancer. While with NLB, you would see the real IP addrss of the client, which is requred by the backend app in some cases. 
+
+
+SELECT BETWEEN ELB TYPES- Selctin bt the ELB servce types is done by detrmning which featre is requred for your app. See list:
+
+Feature           ALB            NLB
+
+Protocols        HTTP,HTTPS     TCP,UDP,TLS
+
+Connction Drnng    yes
+(deregstrtn delay) 
+
+IP adrsses as      yes            yes
+targets
+
+Static IP and
+Elastic IP addrsses               yes
+
+Preserve Src
+IP adress                         yes
+
+Routing based on    yes
+SRC IP addy, path,
+host, HTTP headers, 
+HTTP method, and 
+query string
+
+Redirects           yes
+
+Fixed response      yes
+
+User authentication  yes
+
+Resources:
+
+External Site:
+ AWS: Elastic Load Balancer product comparison
+
+External Site:
+ AWS: AWS Certificate Manager
+
+External Site:
+ AWS: Authenticate users using an Application Load Balancer
+
+External Site:
+ AWS: How AWS WAF works
+
+
+
