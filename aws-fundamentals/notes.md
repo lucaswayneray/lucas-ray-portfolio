@@ -1697,3 +1697,63 @@ Get to know CloudWatch Logs
 CloudWatch can also be the centrlzed place for logs to be stred and anlzed, using CloudWatch Logs. CloudWatch Logs can monitor, store, and access your log files from apps rnning on Amazon EC2 instnces, AWs Lambda functions, and other sources
 CloudWatch Logs allows you to query and filter your log data. For ex, let's say youre looking into an app logic error for your app, and you know that when this error occurs it will log the stack trace. Since you know it logs the error, you query your logs in CloudWatch Logs to find the stack trace, You also set up metric filters on logs, which turn log data into numerical CloudWatch metrics that you graph and use on your dashboards
 
+Some servcs are set up to send log data to CloudWatch Logs w/ minml effrt, like AWS Lambda. W/ AWS Lambda, only need give the Lambda function the correct IAM permissions to post logs to CloudWatch Logs. Other services reqre more configrtion. For ex: if you   want to send your app logs from an EC2 instnce into CloudWatch Logs, you need to first install and configre the CloudWatch Logs agent on the EC2 instance. 
+The CloudWatch Logs agent enables Amazon EC2 instances to automaticlly send log data to CloudWatch Logs. The agent includes the following components. 
+  * A plug-in to the AWS Command Line Interface (CLI) that pushes log data to CloudWatch Logs.
+  * A script that initiates the prcss to push data to CloudWatch Logs
+  * A cron job tht ensres the daemon is always running
+
+After the agnt is instlld and config'd can view your app logs in CloudWatch Logs.
+
+Learn the CloudWatch Logs Terminology
+
+Log data snt to CloudWatch Logs can come from different srcs, so it's imprtnt you undrstnd how they're orgnzed and the termnlgy used to dscrbe your logs.
+
+Log event: A log evnt is a recrd of actvty recrded by the app or rsrc being montred, and it has a timestmp and an evnt message
+
+Log stream: Log evnts are then grped into log streams, which are squnces of log evnts that all belong to the same rsrc being montred. For ex, logs for an EC2 instnce are grped tgther into a log stream that you can then filter or query for insghts.
+
+Log groups: Log streams are then orgnzed into log groups. A log group is composed of log streams that all share the same retntion and prmssns settngs. For ex, if you ahve multple EC2 instnces hosting your app and you are sendng app log data to CloudWatch Logs, can group the log streams from each instnce into one log group. Keeps log orgnzed.
+
+Config a CloudWatch Alarm
+
+Can create CloudWatch alarms to autmtclly initate actions based on sustned state chnges of your metrcs. You config when alarms are trggred and the action that is perfrmed. 
+First need to decide what metric you want to set up an alarm for, then define the threshold whch you awatn the alrm to trigger. Then, you define the spcfied time period of which the metric should cross the threshold for the alarm to be triggered. 
+For ex, if you wanted to set up an alarm for an EC2 instance to trigger when the CPU utlzation goes over a threshold of 80%, you also need to specify the time period the CPU utlztion is over the threshold. Don't want to trigger an alarm based on short temprary spikes in the CPU. Only want to trigger an alarm if the CPU is elvted for a sustned amnt of time, for ex if it is over 80% for 5 min or longer, when ther is a potential rsrc issue. 
+Keeping all that in mind, to set up an alarm you need to choose the metric, the threshold and the time period. Alarm has threee possble states. 
+  * OK: the metric is within the defned threshold.Everything appears to be oprting like normal.
+  * ALARM: metric is outside of the dfned threshold. Could be an oprtional issue. 
+  * INSUFFICIENT_DATA: alarm has just strted, the metric is not availbl or not enough data is avalble for the metric to detrmne the alarm state. 
+
+An Alarm can be triggred when it transtions from one state to another. Once an alarm is trggered, can initate an action. Actions can be Amazon EC2 action, an Auto Scaling action, or a notction sent to Amazon Simple Notfction Service (SNS).
+
+Use CloudWatch Alarms to Prevent and Troubleshoot Issues:
+
+CloudWatch Logs uses metric filters to turn the log data into metrics that you can graph or set an alarm on. For the employee directory app, let's say you set up a metric filter for 500-error response codes. 
+Then you define an alarm for that etric that wilol go into the ALARM state if 500- error respnses go over a certain amount for a sustained time periiiod. Let's say if ittttttt'smore thatn five 500-error respnses per hour, the alarm should enter the ALARM state. Next, you define an action that you want to take place when the alarm is triggered.
+IN this case, it makes sense to send an email or text alert to you so you can start troubleshooting the website, hopefully fixing it befroe it becomes a bigger issue. Once the alarm is set up, you feel comfrtble knwing that if the error happens again, you'll be notified promptly.
+Can set up diff alarms for diff reasons to help you prvnt or trblshoot oprtnal issues. In the scenario just descrbed, the alarm trggred an SNS notfction that went toa person who looked into the issue manully. Another option is to have alarms trigger actions that autmtclly remdiate techncl issues. 
+For ex: can set up an alarm to trigger an EC2 instnce to reboot, or scale srvcs up or down. Can even set up an alarm to trigger an SNS notfction, which then trggrs an AWS Lambda function. The Lambda fnctn then calls any AWS ApI to manage your rsrcs and trbleshoot oprtnal issues. By using AWS servces togther like this you respond to evnts more quickly.
+
+Resources:
+
+External Site:
+ AWS: Getting Started with Amazon CloudWatch
+
+External Site:
+ AWS: What Is Amazon CloudWatch Logs?
+
+External Site:
+ AWS Services That Publish CloudWatch Metrics
+
+External Site:
+ AWS: View Available Metrics
+
+External Site:
+ AWS: Amazon CloudWatch Pricing
+
+External Site:
+ AWS: Amazon Simple Notification Service
+
+External Site:
+ AWS: EC2 Auto Scaling Actions
