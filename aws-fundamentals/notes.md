@@ -1906,5 +1906,109 @@ External Site:
 External Site:
  AWS: How AWS WAF works
 
+# Amazon EC2 Auto Scaling- 
+Avalblty and reachblty is imprved by adding one more servr. Howevr, the entre systm gan again become unavlble if ther is a capcty issue. Let's look at that load issue w/ both types of systems discussed, active-passive and active-active.
 
+Vertical Scaling- If there are too many requsts sent to a single active-passive system, the active srvr will becom unavailble and hopflly failover to the passve server. But this doesn't solve anything. W/ active-passive, need vertical scaling. Means incrsing the size of the srver. With EC2 instnces, you select either a larger type or a diff instnce type. This can only be done while the instnce is in a stopped state. In this scenario, the follwing steps occur:
+
+  1. Stop the passive instnce. This doesn't impct the app since it's not taking any trffic.
+  2. Change the instnce size or type, then start the instnce again.
+  3. Shift the trffic to the pssve instnce, turning it active. 
+  4. The last step is to stop, change the size, and start the previous active instnce as both instnces should match.
+
+When the amnt of requsts redces, the same option needs to be done. Even though there aren't that many steps invlved, it's actlly a lot of manual work to do. Another disadvntge is that a server can only scale vertclly up to a certain limit.
+
+Once that limit is reached, the only option is to create another active-passive systm and split the requsts and fnctnlts acrss them. Could requre mssve app rewrting. This is where the active-active system can help. When there are too many reqsts, this systm can be scled horizontlly by adding more srvers. 
+
+Horizontal Scaling- As mentioned above, for the app to work in an active-active system, it's already created as stateless, not storing any client session on the server. This means that haveing two srvrs or hvng four wouldn't requre any app changes. Would only be a matter of creating more instnces when requred and shuttng them down when the trffic dcrses.
+
+The Amazon EC2 Auto Scaling servce can take care of that task by autmtclly creating and remving EC2 instnces based on metrcs from Amazon CloudWatch.
+
+Can see that ther are many more advntges to using and active-active systm in comprson w/ and actve-pssve. Modding your app to becme statless enbles sclblty.
+
+Integrate ELB with EC2 Auto Scaling- The ELB srvc intgrtes smlssly w/ EC2 Auto Scaling. As soon as a new EC2 instnce is added to or remved from the EC2 Auto Scaling group, ELB is notfied. Hiwvr, before it can send trffic to a new EC2 instnce, it needs to validte that the app rnning on that EC2 instnce is avlble
+
+This valdtion is done via the health chcks featre of ELB. Monitrng is an imprtnt part of load balncers, as it should route trffic to only healthy EC2 instnces. That's why ELB spprts two types of health checks. 
+  * Estblshing a cnnction to a backend EC2 instnce using TCP, and marking the instnce as avlble if that cnnction is sccssful
+  * MAking an HTTP or HTTPS requst to a webpage that you spcfy, and valdting that an HTTP respnse code is rtrned.
+
+Diffrntiate bt Trad Scaling and Auto Scaling- W/ a trad apprch to scling, you buy and prvsion enough srvrs to handle trffic at its peak. However, this means that at night time, ther is more capcity than trffic. This also means you're wsting money. Turning off those srvrs at night or at times where the trffic is lower only saves on elctrcty. 
+The cloud wrks diffrntly, w/ pay-as-you-go model. It's imprtnt to turn off the unused servces, espclly EC2 instnce that you pay for On-Demand. One could manually add and remove srvrs at a prdcted time. But w/ unusu spikes in trffic, this sltion leads to a waste of rsrcs w/ over-provisning or w/ a loss of custmers due to under-prvsioning.
+The need here is for a tool that autmtclly adds and remves EC2 instnces accrding to condtions you dfine- that's exctly waht the EC2 Auto Scaling servce does. 
+
+Use Amazon EC2 Auto Scaling- The EC2 Auto Scling srvce wrks to add or remve capcty to keep a stedy and predctble prfrmnce at the lowst possble cost. By adjstng the capcty to exctly what your app uses, you only pay for what your app needs. And even w/ apps that have steady usge, EC2 Auto Scaling can help w/ fleet mgmt. If ther is an issue w/ an EC2 instnce, EC2 Auto Scaling can autmtclly replce that instnce. This means that EC2 Auto Scaling helps both to scale your infrstrctre and ensure high avlblty. 
+
+Configre EC2 Auto Scaling Compnnts-
+
+Three main compnnts to EC2 Auto Scaling
+  * Launch templte or configrtion: What rsrce should be autmtclly scled?
+  * EC2 Auto Scaling Group: Where should rsrcs be deplyed?
+  * Scaling polcies: When should the rsrcs be added or remved?
+
+Launch Templates- Multple parameters requred ro create EC2 instnces: Amazon Machine Image (AMI)ID, instnce type, scrty group, addtnl Amazon EBS volumes and more. All this info is also requred by EC2 Auto Scaling to create the EC2 instnce on your behalf when there is a need to scale. This information is stored in a launch templte.
+Can use a launch templte to manully launch an EC2 instnce. Can also use it with EC2 Auto Scaling. Also spprts versning, whch allws for quckly rollng back if there was an issue or to specfy an deflt version of your launch templte. This way, while iterating on a new version, other users can continue launching EC2 instnces using the dflt version util you make the necssary chnges
+
+Can create a launch template 3 ways:
+  * The fastest way to create a templte is to use an exsting EC2 instnce. All the sttngs are alrdy defned.
+  * Another option is to create one from an alrdy exsting templte or a previous versn of a launch templte
+  * The last option is to create a templte from scratch. The fllwing options will need to be defned: AMI ID, Instnce type, key pair, scrty group, strage, and rsrc tags.
+
+Another way to define what Amazon EC2 Auto scling needs to scle is by using a launch confgrtion. Similar to the launch templte, but it doens't allow for versning using a prevsly created launch configrtion as a templte. Nor does it allw for creating one from an already exstng eC2 instnce. For those eason and to ensre that your'e gettng the latst featres from Amazon EC2, use a launch templte instead of a launch confgrtion.
+
+Get to Know EC2 Auto Scaling Groups- The next compnnt that EC2 Auto Scaling needs is an EC2 Auto Scaling Group (ASG). An ASG enbles you to dfine where EC2 Auto Scaling deplys your rsrcs. This is where you spcfy the Amazon Virtual Private Cloud (VPC) and subnets the EC2 instnce should be launched in.
+  
+EC2 Auto Scaling takes care of creating the EC2 instnces acrss the subnets, so it's imprtnt to slct at least two sucbnts that are acrss diff AZs
+
+ASGs also allw you so spcfy the type of purchse for the EC2 instnces. You can use On-Demand only, Spot only or a combintion of the two, which allws you to take advntge of Spot instnces w/ miniml adminstrtve overhead. To spcfy how many instnces EC2 Auto Scaling should launch, there are three capcity settngs to config for the group size. 
+
+    * Minimum: minimum num of instnces rnning in your ASG even if the thrshold for lowring the amnt of instnces is reached
+    * Maximum: the max num of instnces running in your ASG even if the threshold for adding new instnces is reached. 
+    * Desired capcity: the amnt of instnces that should be in your ASG. THis number can only be w/in or equal to the minimuym or maxmum. EC2 Auto Scaling autmtclly adds or remves instnces to match the desred capcty number.
+
+When EC2 Auto Scaling removes EC2 instnces bc the trffic is minmallllll, it keeps remvng EC2 instnces until it reaches a minmum capcty. Depending onyour app, using a mnmum of two is a good idea to ensrehigh avlblty, but you know how many EC2 instnces at a bare minumum your applction requres at all times. When reaching that limit, even if EC2 Auto Scaling is instrcted to remove an instnce, it does not, to ensure the minimum is kept.
+
+On the other hand, when the trffic keeps grwing, EC2 Auto Scaling keeps adding EC2 instnces. This means the cost for your app will also keep grwing. That's why it's imprtnt to set a max amnt to make sure it doesnt go above your budget. 
+
+The desred capcty is the amnt of EC2 instnces that EC2 Auto Scaling creates at the time the group is created. If that numbr decrses, then EC2 Auto Scaling remves the oldest instnce by default. If that num invcrses, then EC2 Auto Scaling creates new nstnces using the launch template.
+
+Ensure Availability with EC2 Auto Scaling- Using diffrnt nums for minmum, maxmum, and desred capcty is used for dynmclly adjstng the capcty. But if you prefer to use EC2 Auto Scaling for fleet mgmt, can config the three settngs to the same number, for ex four. EC2 Auto Scaling will ensure that if an EC2 instnce becmes unhealthy, it replces it to alway ensrue that four EC2 instnces are avlble. This ensres high avlblty for your apps.
+
+Enable Automation with Scaling Policies-
+
+By deflt, an ASG will be kept to its initial desred capcty. Although it's possble to manully change the desred capcty, you can also use scling polcies.
+
+In the AWS Monitring module, you learned about Amazon CloudWatch metrcs and alrms. You use metrcs to keep info about diff attrbtes of your EC2 instnce like the CPU percntge. You use alrms to spcfy and action when a thrshold is reached. Metrics and alrms are what scling policies use to know when to act. For ex: you set up an alrm that says when the CPU utlztion is above 70% acrss the entire fleet of EC2 instnces, trigger a scaling policy to add and EC2 instnce.
+
+Three types of scling polcies: simple, step, and target tracking scaling. 
+
+Simple Scaling Policy- Allows you to do exctly what's descrbed above. You use a CloudWatch alrm and spcfy what to do when trggred. This can be a number of EC2 instnces to add or remve, or a spcfic number to set the desred capcty to. You can spcfy a percntge of the group instead of using an amount of EC2 instnces, which makes the group grow or shrnk more quickly.
+
+Once this scaling policy is trggred, waits a cooldown period before taking any other action. This is imprtnt as it takes time for the EC2 instnces to strt and the CloudWatch alrm may still be trggred while the EC2 instnce is booting. For ex, you could decde to add an EC2 instnc if the CPU utlztion acrss all instnces is about 65%. You don't want to add more instnces until that new EC2 instnce is accpting trffic. 
+
+But if the CPU utlztion was now above 85% acrss the ASG? Only addng one instnce may not be the right move here. Instead you may want to add anther step in your scling polcy. Unfrtntly a simple scling polcy can't help with that.
+
+Step Scaling Policy- Step scaling polcies respnd to addtnal alrms even while a scling actvty or health check replcment is in prgress. Similar to the ex above, you decide to add two more instncesin case the CPU utlztion is at 85% and four more instncs when it's at 95%
+
+Decding when to add and remove instnces based on CloudWatch alrms may seem like a diffclt task. This is why the tird type of scling polcy exists: target tracking. 
+
+Target Tracking Scaling Policy- If your app scles based on average CPU utlztion, averge netwrk utlztion (in or out) or based on requst count m then this scling policy type is the one to use. All you need to prvde is the target value to track and it autmtclly creates the requred CloudWatch alrms.
+
+Resources
+External Site:
+ AWS: Amazon EC2 Auto Scaling 
+
+External Site:
+ AWS: Amazon EC2 Auto Scaling FAQs 
+
+External Site:
+ AWS: Setting capacity limits for your Auto Scaling Group 
+
+External Site:
+ AWS: Step and simple scaling policies for Amazon EC2 Auto Scaling 
+
+External Site:
+ AWS: Target tracking scaling policies for Amazon EC2 Auto Scaling 
+
+External Site:
+ AWS: Creating an Auto Scaling Group using a launch template 
 
