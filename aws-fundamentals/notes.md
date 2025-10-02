@@ -1757,3 +1757,57 @@ External Site:
 
 External Site:
  AWS: EC2 Auto Scaling Actions
+
+# Optimizing Solutions on AWS
+
+What is avlblty?- avlblty of a systm is typclly exprssed as a prcntge of uptime in a giveeeen year or as a number of nines. Below you can see a list of the percntges of avlblty based on the downtime per year, as well as notation in nines
+
+Availability(%)                  Downtime (per year)
+90% ("one nine")                     36.53 days
+99% ("two nines")                    3.65 days
+99.9 ("three nines")                 8.77 hours
+99.95% ("three and a half nines")    4.38 hours
+99.99% ("four nines")                52.6 minutes
+99.995 ("four and a half nines")     26.3 minutes
+99.999% ("five nines")               5.26 minutes
+
+To incrse avlblty, need redndncy. Typclly means more infrstrctre: more data centers, more servrs,    more dtbases and more replction of data. Can imaging that adding more of this infrstrcture means a higher cost. Customer wan the app to alwys be avalble, but you need to draw a line where addng redndncy is no longer viable in terms of revnue.
+
+Improve Application Availability 
+In the current app, only one EC2 instnce used to host the app, the photos are srved from Amazon Simple Storage Service (S3) and the strctred data is stored in Amazon DynamoDB. That single EC2 instnce is a single point of failure for the app. Even if the database and S3 are highly availble, customers have no way to cnnct if the single instnce becomes unavailbl. One way to solve this  single point of failure issue is by adding one more server.
+
+Use a Second Availability Zone- the phyical location of that server is imprtnt. On top of having software issues at the OS or Application level ther can be a hardwre issue. Could be in the physical server, the rack the data center or even the Availability Zone hosting the virtual machine. An easy way to fix the physical location issue is by deploying a second EC2 instance in a different Availability Zone. Would also solve issues w/ the operating system and the app. However, having omore thatn one instnce brngs new chllnges.
+
+Manage Replication, Redirection, and High Availability
+
+Create a Process for Replication- the first chllnge is that you need to create a prcess to replcte the configrtion files, softwre patches, and applction itslf acrss instnces. The best method is to autmate where you can.
+
+Address Customer Redirection- the second chllnge is how to let the clients, the computers snding requsts to your srver, know about the diff srvers. There are diff tools that can be used here. The most common is using a Domain Name System (DNS) where the client uses one record which points to the IP address of all available servers. However, the time it takes to updat that list of IP addresses and for the clients to become aware of such change, sometimes called propagation, is typically the reason why this method isn't always used. 
+Another option is to use a load balancer which takes care of health checks and distrbting the load acrss each server. Being bt the client and the srver, the load balncer avoids propagation time iss ues. We cscss load balncers later.
+
+Understand the types of High Availablity- the last chllnge to addrss when hving more than one servr is the type of avlblty you need- either ba an active-pppassive or an active-active system
+
+  * Active-Passive: With an active-passive system only one of the two instnces is availble at at time. One advntge of this method is that for stateful apps where data about the clien'ts session is stored on the server, there won't be any issues as the customers are always sent to the same server where their session is stored. 
+
+  * Active-Active: A disadvntage of active-passive and where an actve-actve system shines is scalblty. By havng both srvrs availbl, the second srver can take some load for the app, thus allwing the entire system to take more load. However, if the app is stateful, there would be an issue if the customer's session isn't available on both servers. Stateless application work better for active-active systems.
+
+  Resources 
+ External Site: High Availability and Scalability on AWS 
+
+External Site:
+ AWS: AWS Reliability Pillar: AWS Well-Architected Framework 
+
+# Route Traffic with Amazon Load Balancing
+
+What's a Load Balancer- Load balancing refers to the process of distributing tasks across a set of resrces. In case of the corporate dirctory app, the resrces are EC2 instnces that host the app, and the tasks are the diff requsts being sent. It's time to distribute the requests across all the srvers hosting the app using a load balancer. 
+To do this, you need to fist enable the load balncer to take all of the trffic and redrect it to the backend servers based on an algorithm. The most popular algorithm is round-robin, whch sends the traffic to each srvr one after the other.
+A typical request for the app would start from the brwser of the client. Its' sent to a load balncer. Then it's sent to one of the EC2 instnces that hosts the app. the retrn trffic would go cack through the load balancer and back to the client browser. Thus the load balncer is drctly in the path of the traffic.
+Although it is possble to install your own softwre load balncing solution on EC2 instnces, AWS provides a servce for that called Elastic Load Balancing (ELB)
+
+Features of ELB- The ELB servd prvdes a major advntge over usng your own soltion to do load balncing in that you don't need to manage or operate it. I can distrbute incoming app trffic acrss EC2 instnces as well as containers, IP addresses, and AWS Lambda functions
+
+  * The fact that ELB can load balance to IP addresses means that it can work in a hybrid mode as well, where it also load balnces to on-prem srvrs
+  * ELB is highly availble. The only option you have to ensrue is that the load balncer is deplyed across multple Availability Zones
+  * In terms of scalability, ELB automatically scales to meet the demand of the incoming trffic. It handles the incoming trffic and sends it to your backend app
+
+  HEALTH CHECKS- Taking the timne to define an apprpriate health check is critical. Only verifying that the port of an app is open doesn't mean that the app is working. It also doesn't mean that simply making a call to the home page of an app is the right way either. For ex, the employee dirctory app depnds on a database, and S3. The health check should valdte all of those elements. One way to do that would be to create a monitoring wbpage like "/monitor" that will make a call to the database to ensure it can cnnct and get data, and make a call to S3. Then you point the healtjh check on the load balancer to the "/monitor" page.
